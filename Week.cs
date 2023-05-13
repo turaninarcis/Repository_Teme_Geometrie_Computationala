@@ -11,17 +11,12 @@ namespace Repository_Teme_Geometrie_Computationala
     {
         string path;
         Problem[] problems;
-        BaseWeek baseWeek;
         int index;
-        public Week(string path,int index) 
+        public Week(int index,MainWindow mainWindow) 
         {
-           this.path = path;
+           path = $"..\\..\\..\\Probleme\\Saptamana{index}.txt";
            this.index = index;
            ExtractProblems();
-        }
-        public void SetBaseWeek(BaseWeek baseWeek)
-        {
-           this.baseWeek = baseWeek;
         }
         public Problem[] GetProblems()
         {

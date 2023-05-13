@@ -32,10 +32,8 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             for (int i = 1; i <= nrOfButtons; i++)
             {
-                WeekButton button = new WeekButton($"..\\..\\..\\Probleme\\Saptamana{i}.txt", this);
-                button.Name = "buttonWeek" + i;
-                button.Content = "Week " + i;
-                button.Height = 50;
+                WeekButton button = new WeekButton(i, this);
+
                 SetWeeksPanel.Children.Add(button);
             }
         }
@@ -43,6 +41,7 @@ namespace Repository_Teme_Geometrie_Computationala
         public void InitBaseWeeks()
         {
             weeks.Clear();
+            weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));

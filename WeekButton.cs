@@ -11,22 +11,20 @@ namespace Repository_Teme_Geometrie_Computationala
 {
     internal class WeekButton:Button
     {
-        string path;
         Week week;
         StackPanel stackPanelProblems;
         MainWindow mainWindow;
-        static int NumberOfButtons=0;
-        public WeekButton(string path,MainWindow mainWindow)
+        public WeekButton(int index,MainWindow mainWindow)
         {
-            this.path = path;
-            week = new Week(path,NumberOfButtons);
-            week.SetBaseWeek(mainWindow.GetWeek(NumberOfButtons));
-            NumberOfButtons++;
             this.mainWindow = mainWindow;
+            Name = "buttonWeek" + index;
+            Content = "Week " + index;
+            Height = 50;
+            week = new Week(index,mainWindow);
             stackPanelProblems = mainWindow.SetProblemsPanel;
             Click += AssignProblemButtons;
         }
-       
+        
         public void AssignProblemButtons(object obj,RoutedEventArgs e)
         {
             stackPanelProblems.Children.Clear();
