@@ -45,7 +45,7 @@ namespace Repository_Teme_Geometrie_Computationala
                     }
                     else if(buffer=="*")
                     {
-                        problems[indexProblem] = new Problem(bufferText[0], bufferText[1],baseWeek.GetMethod(index));
+                        problems[indexProblem] = new Problem(bufferText[0], bufferText[1]);
                         bufferText[0] = "";
                         bufferText[1] = "";
                         indexText= 0;

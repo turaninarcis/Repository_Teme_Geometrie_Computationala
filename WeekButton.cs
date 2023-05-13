@@ -1,5 +1,4 @@
-﻿using Repository_Teme_Geometrie_Computationala.User_Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,7 +13,7 @@ namespace Repository_Teme_Geometrie_Computationala
     {
         string path;
         Week week;
-        StackPanel stackPanelButoane;
+        StackPanel stackPanelProblems;
         MainWindow mainWindow;
         static int NumberOfButtons=0;
         public WeekButton(string path,MainWindow mainWindow)
@@ -23,25 +22,21 @@ namespace Repository_Teme_Geometrie_Computationala
             week = new Week(path,NumberOfButtons);
             week.SetBaseWeek(mainWindow.GetWeek(NumberOfButtons));
             NumberOfButtons++;
-            this.stackPanelButoane = stackPanelButoane;
             this.mainWindow = mainWindow;
-            stackPanelButoane = mainWindow.SetProblemsPanel.stackPanelButoane;
+            stackPanelProblems = mainWindow.SetProblemsPanel;
             Click += AssignProblemButtons;
         }
        
         public void AssignProblemButtons(object obj,RoutedEventArgs e)
         {
-            stackPanelButoane.Children.Clear();
+            stackPanelProblems.Children.Clear();
             int nrOfButtons = week.GetNumberOfProblems();
             Problem[] problems = week.GetProblems();
             for (int i = 1; i <= nrOfButtons; i++)
             {
-                ProblemButton button = new ProblemButton(problems[i-1]);
+                ProblemButton button = new ProblemButton(problems[i-1],i);
                 button.Click += AssignTextToTextBlock;
-                button.Name = "buttonProblem" + i;
-                button.Content = "Problem " + i;
-                button.Height = 70;
-                stackPanelButoane.Children.Add(button);
+                stackPanelProblems.Children.Add(button);
             }
         }
 

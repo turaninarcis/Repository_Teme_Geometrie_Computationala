@@ -12,18 +12,10 @@ namespace Repository_Teme_Geometrie_Computationala
         
         string problemDescription;
         string problemSolvingDescription;
-        Action problemAction;
-        public Problem(string problemDescription,string problemSolvingDescription,Action problem)
+        public Problem(string problemDescription,string problemSolvingDescription)
         {
             this.problemDescription = problemDescription;
             this.problemSolvingDescription = problemSolvingDescription;
-            problemAction= problem;
-
-        }
-
-        private void UseProblem(object obj, RoutedEventArgs e)
-        {
-            problemAction();
         }
 
         public string ToString()

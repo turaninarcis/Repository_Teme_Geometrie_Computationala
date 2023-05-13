@@ -10,11 +10,20 @@ namespace Repository_Teme_Geometrie_Computationala
     internal class ProblemButton:Button
     {
         Problem problem;
-        public ProblemButton(Problem problem) 
+        int index;
+        public ProblemButton(Problem problem,int index) 
         {
             this.problem = problem;
-        }
+            this.index = index;
+            Init();
 
+        }
+        private void Init()
+        {
+            Name = "buttonProblem" + index;
+            Content = "Problem " + index;
+            Height = 70;
+        }
         public string ShowProblemDetails()
         {
            return problem.ToString();

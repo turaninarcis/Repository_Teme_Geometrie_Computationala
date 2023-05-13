@@ -1,5 +1,4 @@
-﻿using Repository_Teme_Geometrie_Computationala.User_Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +24,22 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             InitializeComponent();
             InitBaseWeeks();
-            SetWeeksPanel.Init(this);
+            GenerateButtons(14);
         }
         List<BaseWeek> weeks = new List<BaseWeek>();
+
+        private void GenerateButtons(int nrOfButtons)
+        {
+            for (int i = 1; i <= nrOfButtons; i++)
+            {
+                WeekButton button = new WeekButton($"..\\..\\..\\Probleme\\Saptamana{i}.txt", this);
+                button.Name = "buttonWeek" + i;
+                button.Content = "Week " + i;
+                button.Height = 50;
+                SetWeeksPanel.Children.Add(button);
+            }
+        }
+
         public void InitBaseWeeks()
         {
             weeks.Clear();
