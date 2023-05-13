@@ -1,0 +1,6 @@
+﻿1
+Partiționarea unui poligon simplu în poligoane convexe, pornind de la o triangulare
+a poligonului și eliminând diagonalele neesențiale.
+#
+BlaBla
+*

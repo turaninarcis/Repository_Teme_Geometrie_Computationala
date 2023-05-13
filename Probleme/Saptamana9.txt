@@ -1,0 +1,5 @@
+﻿1
+Partiționarea unui poligon simplu în poligoane monotone, prin identificarea vârfurilor de întoarcere și unirea acestora prin diagonale cu vârfurile corespunzătoare.
+#
+BlaBla
+*

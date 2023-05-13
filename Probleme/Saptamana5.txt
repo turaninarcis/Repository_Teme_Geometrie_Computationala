@@ -1,0 +1,5 @@
+﻿1
+Se dă o mulțime de puncte în plan. Să se determine învelitoarea convexă a acestei mulțimi.
+#
+Blabla
+*

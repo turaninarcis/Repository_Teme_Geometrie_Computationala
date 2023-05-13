@@ -1,0 +1,13 @@
+﻿3
+Triangularea unei mulțimi finite de puncte din plan (opțional).
+#
+BlaBla
+*
+Reprezentarea grafică a unui poligon simplu cu n vârfuri (prin desenare).
+#
+BlaBla
+*
+Triangularea unui poligon convex.
+#
+BlaBla
+*

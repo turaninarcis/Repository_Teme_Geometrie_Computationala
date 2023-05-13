@@ -1,0 +1,7 @@
+﻿1
+a)Triangularea unui poligon simplu cu n>3 vârfuri prin metoda eliminării urechilor (otectomie).
+b) 3-colorarea grafului asociat triangulării obținute (culorile se pot asocia în mod unic pornind de la vîrfurile triunghiului rămas și apoi urechile determinate, considerate în ordinea inversă eliminării).
+c) Determinarea ariei poligonului (expresia analitică din Cursul 08 – Teorema 5.5).
+#
+BlaBla
+*

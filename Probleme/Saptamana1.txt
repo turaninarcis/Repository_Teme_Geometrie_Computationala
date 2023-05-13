@@ -1,0 +1,13 @@
+﻿3
+Se dă o mulțime de puncte în plan. Să se determine dreptunghiul de arie minimă care să conțină toate punctele date în interior.
+#
+BlaBlaBla
+*
+Se dau două mulțimi de puncte în plan. Pentru fiecare punct din prima mulțime să se găsească cel mai apropiat punct din cea de a doua mulțime.
+#
+BlaBla
+*
+Se dau n puncte în plan. Pentru un punct dat q să se determine cercul cu centrul în q și de rază maximă care să nu conțină niciun punct din mulțimea dată.
+#
+BlaBlaBla
+*

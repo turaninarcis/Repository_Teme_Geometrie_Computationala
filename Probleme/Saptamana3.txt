@@ -1,0 +1,10 @@
+﻿2
+Se dă o mulțime de 2n puncte în plan. Să se unească două câte două puncte astfel încât suma lungimilor segmentelor obținute să fie minimă (problemă de cuplaj).
+#
+BlaBla
+*
+Se dă o mulțime S de segmente de dreaptă închise și se cere să se determine toate intersecțiile dintre segmentele din S.
+#
+BlaBla
+*
+

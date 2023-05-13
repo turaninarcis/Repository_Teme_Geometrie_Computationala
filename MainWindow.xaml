@@ -1,0 +1,46 @@
+﻿<Window x:Class="Repository_Teme_Geometrie_Computationala.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Repository_Teme_Geometrie_Computationala"
+        xmlns:sets_buttons="clr-namespace:Repository_Teme_Geometrie_Computationala.User_Controls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" MinWidth="800" MinHeight="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="30*"/>   
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <sets_buttons:Sets_Problem_Buttons Grid.Column="0"
+                                           Grid.RowSpan="2"
+                                           Panel.ZIndex="2"
+                                           Background="DimGray"
+                                           x:Name="SetProblemsPanel" />
+
+        <sets_buttons:Sets_Buttons x:Name="SetWeeksPanel"
+                                   Background="DimGray"
+                                   Grid.Column="2"
+                                   Grid.RowSpan="2"
+                                   Panel.ZIndex="2" />
+        <Image Grid.Column="1"
+               Stretch="Fill"
+               
+               x:Name="image"/>
+
+        <ScrollViewer Grid.Row="1"
+                      Grid.Column="1"
+                      VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="ProblemDetailsText"
+                       TextWrapping="Wrap"
+                       Background="AliceBlue"
+                       FontSize="20"
+                        />
+        </ScrollViewer>
+    </Grid>
+</Window>
