@@ -1,38 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Drawing = System.Drawing;
 namespace Repository_Teme_Geometrie_Computationala
 {
     internal class Week1:BaseWeek
     {
+
         public Week1(MainWindow mainWindow) : base(mainWindow)
         {
             ProblemMethodsList.Add(AssignProblem1);
             ProblemMethodsList.Add(AssignProblem2);
             ProblemMethodsList.Add(AssignProblem3);
         }
-        public void AssignProblem1() 
+        public void AssignProblem1(object obj, RoutedEventArgs e) 
         {
             Exercitiu_1(bitmap, 200);
+
         }
-        public void AssignProblem2()
+        public void AssignProblem2(object obj, RoutedEventArgs e)
         {
-           Exercitiu_2(bitmap, 200,200);
+            Exercitiu_2(bitmap, 200,200);
+
         }
-        public void AssignProblem3()
+        public void AssignProblem3(object obj, RoutedEventArgs e)
         {
-            Exercitiu_3(bitmap,300,new Point(100,100));
+            Exercitiu_3(bitmap,300,new Drawing.Point(100,100));
         }
         private void Exercitiu_1(Bitmap bitmap, int numarPuncte)
         {
             Helper helper = new Helper(bitmap);
             Graphics graphics = Graphics.FromImage(bitmap);
             int MultiplicatorMarime = 3;
-            Pen pen = new Pen(Color.Black, MultiplicatorMarime);
+            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Black, MultiplicatorMarime);
             Random random = new Random();
 
             int indentation = 30;
@@ -57,7 +64,7 @@ namespace Repository_Teme_Geometrie_Computationala
                 graphics.DrawEllipse(pen, x - marimeCerc / 2, y - marimeCerc / 2, marimeCerc, marimeCerc);
             }
             Rectangle dreptunghi = helper.FormareDreptunghiCuDouaPuncte(xMin, yMin, xMax, yMax);
-            pen.Color = Color.Red;
+            pen.Color = Drawing.Color.Red;
             graphics.DrawRectangle(pen, dreptunghi);
         }
 
@@ -66,17 +73,17 @@ namespace Repository_Teme_Geometrie_Computationala
             Helper helper = new Helper(bitmap);
             Graphics graphics = Graphics.FromImage(bitmap);
             int MultiplicatorMarime = 3;
-            Pen pen = new Pen(Color.Red, MultiplicatorMarime);
+            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
 
-            Point[] primaGrupa = helper.GenerarePuncteAleatorii(numarPuncte1);
+            Drawing.Point[] primaGrupa = helper.GenerarePuncteAleatorii(numarPuncte1);
             helper.DesenarePunctePeFormular(primaGrupa, graphics, pen, MultiplicatorMarime);
 
 
-            pen.Color = Color.Blue;
-            Point[] aDouaGrupa = helper.GenerarePuncteAleatorii(numarPuncte2);
+            pen.Color = Drawing.Color.Blue;
+            Drawing.Point[] aDouaGrupa = helper.GenerarePuncteAleatorii(numarPuncte2);
             helper.DesenarePunctePeFormular(aDouaGrupa, graphics, pen, MultiplicatorMarime);
 
-            pen.Color = Color.Black;
+            pen.Color = Drawing.Color.Black;
             double distantaDintrePuncte;
             double distantaMinimaDintrePuncte;
             int ContorPozitie = 0;
@@ -97,26 +104,26 @@ namespace Repository_Teme_Geometrie_Computationala
             }
         }
 
-        private void Exercitiu_3(Bitmap bitmap, int numarPuncte, Point CentrulCercului)
+        private void Exercitiu_3(Bitmap bitmap, int numarPuncte, Drawing.Point CentrulCercului)
         {
             Helper helper = new Helper(bitmap);
             Graphics graphics = Graphics.FromImage(bitmap);
             int MultiplicatorMarime = 4;
-            Pen pen = new Pen(Color.Red, MultiplicatorMarime);
+            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
 
-            Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
+            Drawing.Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
             helper.DesenarePunctePeFormular(puncte, graphics, pen, MultiplicatorMarime);
 
             double razaMaxima = int.MaxValue;
             double razaCurenta;
-            foreach (Point point in puncte)
+            foreach (Drawing.Point point in puncte)
             {
                 razaCurenta = helper.DistantaIntreDouaPuncte(point, CentrulCercului);
                 if (razaCurenta < razaMaxima)
                     razaMaxima = razaCurenta;
             }
 
-            pen.Color = Color.Blue;
+            pen.Color = Drawing.Color.Blue;
             graphics.DrawEllipse(pen, (float)(CentrulCercului.X - razaMaxima), (float)(CentrulCercului.Y - razaMaxima), (float)(razaMaxima * 2), (float)(razaMaxima * 2));
         }
     }

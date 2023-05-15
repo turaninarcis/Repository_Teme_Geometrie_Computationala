@@ -15,21 +15,28 @@ namespace Repository_Teme_Geometrie_Computationala
         StackPanel stackPanelProblems;
         MainWindow mainWindow;
         Problem[] problems;
+        public BaseWeek week;
         string path;
         int index;
-        public WeekButton(int index,MainWindow mainWindow)
+        public WeekButton(int index,BaseWeek week,MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
             this.index = index;
+            this.week = week;
+            Init();
+        }
+        
+        private void Init()
+        {
             path = $"..\\..\\..\\Probleme\\Saptamana{index}.txt";
             Name = "buttonWeek" + index;
             Content = "Week " + index;
             Height = 50;
+            FontSize= 16;
             stackPanelProblems = mainWindow.SetProblemsPanel;
             ExtractProblems();
             Click += AssignProblemButtons;
         }
-        
         public void AssignProblemButtons(object obj,RoutedEventArgs e)
         {
             stackPanelProblems.Children.Clear();
@@ -38,6 +45,9 @@ namespace Repository_Teme_Geometrie_Computationala
             {
                 ProblemButton button = new ProblemButton(problems[i-1],i);
                 button.Click += AssignTextToTextBlock;
+                button.Click += week.ResetBitmap;
+                button.Click += week.GetMethod(i - 1);
+                button.Click += week.AssignImage;
                 stackPanelProblems.Children.Add(button);
             }
         }
@@ -74,6 +84,7 @@ namespace Repository_Teme_Geometrie_Computationala
         public void AssignTextToTextBlock(object obj, RoutedEventArgs e)
         {
             mainWindow.ProblemDetailsText.Text = (obj as ProblemButton).ShowProblemDetails();      
+
         }
     }
 }

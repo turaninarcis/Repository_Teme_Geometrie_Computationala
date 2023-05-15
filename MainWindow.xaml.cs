@@ -32,7 +32,7 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             for (int i = 1; i <= nrOfButtons; i++)
             {
-                WeekButton button = new WeekButton(i, this);
+                WeekButton button = new WeekButton(i, weeks[i-1], this);
 
                 SetWeeksPanel.Children.Add(button);
             }
@@ -57,9 +57,6 @@ namespace Repository_Teme_Geometrie_Computationala
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
         }
-        public BaseWeek GetWeek(int index)
-        {
-            return weeks[index];
-        }
+
     }
 }
