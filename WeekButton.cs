@@ -32,7 +32,7 @@ namespace Repository_Teme_Geometrie_Computationala
             Name = "buttonWeek" + index;
             Content = "Week " + index;
             Height = 50;
-            FontSize= 16;
+            FontSize= 12;
             stackPanelProblems = mainWindow.SetProblemsPanel;
             ExtractProblems();
             Click += AssignProblemButtons;

@@ -22,7 +22,7 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             Name = "buttonProblem" + index;
             Content = "Problem " + index;
-            FontSize= 16;
+            FontSize= 12;
             Height = 70;
         }
         public string ShowProblemDetails()

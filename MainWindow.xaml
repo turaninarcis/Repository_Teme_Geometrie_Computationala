@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Repository_Teme_Geometrie_Computationala"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinWidth="800" MinHeight="450">
-    <Grid>
+        Title="Geometrie Computationala by Turani Narcis-Robert" Height="450" Width="800" MinWidth="800" MinHeight="450">
+    <Grid Background="DimGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="70*" MinHeight="200"
                            x:Name="Row0"/>
@@ -22,24 +22,34 @@
         <StackPanel Grid.Column="1"
                     Panel.ZIndex="2"
                     Background="DimGray"
-                    x:Name="SetProblemsPanel" />
+                    x:Name="SetProblemsPanel" 
+                    Margin="0,10,10,10"/>
         <ScrollViewer Grid.Column="2"
                       Background="DimGray"
-                      VerticalScrollBarVisibility="Auto">
+                      VerticalScrollBarVisibility="Hidden"
+                      
+                      Margin="0,10,10,10">
             <StackPanel x:Name="SetWeeksPanel" />
 
         </ScrollViewer>
-        <Image Grid.Column="0"
-               x:Name="image"
-               Stretch="Fill"/>
+        <DataGridCell Background="GhostWhite"
+                      Margin="10">
+
+            <Image Grid.Column="0"
+                   x:Name="image"
+                   Stretch="Fill"
+                   Margin="10" />
+        </DataGridCell>
+        
         <GridSplitter Grid.Row="1"
                       Grid.ColumnSpan="3"
                       HorizontalAlignment="Stretch"
-                      Background="Gray"
+                      Background="DimGray"
                       />
         <ScrollViewer Grid.Row="2"
                       Grid.Column="0"
                       Grid.ColumnSpan="3"
+                      Margin="10"
                       Background="AliceBlue"
                       VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="ProblemDetailsText"

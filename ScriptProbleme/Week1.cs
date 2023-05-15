@@ -36,8 +36,6 @@ namespace Repository_Teme_Geometrie_Computationala
         }
         private void Exercitiu_1(Bitmap bitmap, int numarPuncte)
         {
-            Helper helper = new Helper(bitmap);
-            Graphics graphics = Graphics.FromImage(bitmap);
             int MultiplicatorMarime = 3;
             Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Black, MultiplicatorMarime);
             Random random = new Random();
@@ -70,18 +68,17 @@ namespace Repository_Teme_Geometrie_Computationala
 
         private void Exercitiu_2(Bitmap bitmap, int numarPuncte1, int numarPuncte2)
         {
-            Helper helper = new Helper(bitmap);
-            Graphics graphics = Graphics.FromImage(bitmap);
+
             int MultiplicatorMarime = 3;
             Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
 
             Drawing.Point[] primaGrupa = helper.GenerarePuncteAleatorii(numarPuncte1);
-            helper.DesenarePunctePeFormular(primaGrupa, graphics, pen, MultiplicatorMarime);
+            helper.DesenarePunctePeFormular(primaGrupa, pen, MultiplicatorMarime);
 
 
             pen.Color = Drawing.Color.Blue;
             Drawing.Point[] aDouaGrupa = helper.GenerarePuncteAleatorii(numarPuncte2);
-            helper.DesenarePunctePeFormular(aDouaGrupa, graphics, pen, MultiplicatorMarime);
+            helper.DesenarePunctePeFormular(aDouaGrupa, pen, MultiplicatorMarime);
 
             pen.Color = Drawing.Color.Black;
             double distantaDintrePuncte;
@@ -106,13 +103,12 @@ namespace Repository_Teme_Geometrie_Computationala
 
         private void Exercitiu_3(Bitmap bitmap, int numarPuncte, Drawing.Point CentrulCercului)
         {
-            Helper helper = new Helper(bitmap);
-            Graphics graphics = Graphics.FromImage(bitmap);
+
             int MultiplicatorMarime = 4;
             Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
 
             Drawing.Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
-            helper.DesenarePunctePeFormular(puncte, graphics, pen, MultiplicatorMarime);
+            helper.DesenarePunctePeFormular(puncte, pen, MultiplicatorMarime);
 
             double razaMaxima = int.MaxValue;
             double razaCurenta;

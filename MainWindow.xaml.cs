@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repository_Teme_Geometrie_Computationala.ScriptProbleme;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,9 +43,9 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             weeks.Clear();
             weeks.Add(new Week1(this));
+            weeks.Add(new Week2(this));
             weeks.Add(new Week1(this));
-            weeks.Add(new Week1(this));
-            weeks.Add(new Week1(this));
+            weeks.Add(new Week4(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Drawing = System.Drawing;
 
 namespace Repository_Teme_Geometrie_Computationala
 {
@@ -21,12 +22,9 @@ namespace Repository_Teme_Geometrie_Computationala
         public BaseWeek(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            bitmap = new Bitmap((int)mainWindow.Width, (int)mainWindow.Height);
-
+            ResetBitmap();
             System.Windows.Controls.Image image = mainWindow.image;
             ProblemMethodsList= new List<RoutedEventHandler>();
-            helper = new Helper(bitmap);
-            graphics = Graphics.FromImage(bitmap);
         }
         public RoutedEventHandler GetMethod(int ProblemNumber)
         {
@@ -36,8 +34,22 @@ namespace Repository_Teme_Geometrie_Computationala
         public void ResetBitmap(object obj, RoutedEventArgs e)
         {
             bitmap = new Bitmap((int)mainWindow.Width, (int)mainWindow.Height);
+            graphics = Graphics.FromImage(bitmap);
+            helper = new Helper(ref bitmap,ref graphics);
         }
+        public void ResetBitmap()
+        {
+            bitmap = new Bitmap((int)mainWindow.Width, (int)mainWindow.Height);
+            graphics = Graphics.FromImage(bitmap);
+            helper = new Helper(ref bitmap,ref graphics);
+        }
+
         public void AssignImage(object obj, RoutedEventArgs e)
+        {
+            ImageSource imageSource = BitmapConverter.ImageSourceFromBitmap(bitmap);
+            mainWindow.image.Source = imageSource;
+        }
+        public void AssignImage()
         {
             ImageSource imageSource = BitmapConverter.ImageSourceFromBitmap(bitmap);
             mainWindow.image.Source = imageSource;
