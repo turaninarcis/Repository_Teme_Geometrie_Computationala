@@ -28,5 +28,6 @@ namespace Repository_Teme_Geometrie_Computationala
         {
            return problem.ToString();
         }
+
     }
 }

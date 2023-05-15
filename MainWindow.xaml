@@ -8,8 +8,9 @@
         Title="MainWindow" Height="450" Width="800" MinWidth="800" MinHeight="450">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70*"/>
-            <RowDefinition Height="30*"/>   
+            <RowDefinition Height="70*" MinHeight="200"/>
+            <RowDefinition Height="6" />
+            <RowDefinition Height="30*" MinHeight="100"/>   
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*"/>
@@ -17,29 +18,30 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1"
-                    Grid.RowSpan="2"
                     Panel.ZIndex="2"
                     Background="DimGray"
                     x:Name="SetProblemsPanel" />
+        <ScrollViewer Grid.Column="2"
+                      Background="DimGray"
+                      Grid.RowSpan="3"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="SetWeeksPanel" />
 
-        <StackPanel x:Name="SetWeeksPanel"
-                    Background="DimGray"
-                    Grid.Column="2"
-                    Grid.RowSpan="2"
-                    Panel.ZIndex="2" />
-        <Image Grid.Column="0"
-               Stretch="Fill"
-               
-               x:Name="image"/>
-
-        <ScrollViewer Grid.Row="1"
+        </ScrollViewer>
+        <Image Grid.Column="0" x:Name="image"/>
+        <GridSplitter Grid.Row="1"
+                      Grid.ColumnSpan="2"
+                      HorizontalAlignment="Stretch"
+                      Background="Gray"
+                      />
+        <ScrollViewer Grid.Row="2"
                       Grid.Column="0"
+                      Grid.ColumnSpan="2"
                       Background="AliceBlue"
                       VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="ProblemDetailsText"
                        Margin="10"
                        TextWrapping="Wrap"
-                       
                        FontSize="20"
                         />
         </ScrollViewer>

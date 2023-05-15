@@ -17,10 +17,10 @@ namespace Repository_Teme_Geometrie_Computationala
             this.problemDescription = problemDescription;
             this.problemSolvingDescription = problemSolvingDescription;
         }
-
         public string ToString()
         {
-            return problemDescription +"\r\n" +problemSolvingDescription;
+            return problemDescription + "\r\n" + problemSolvingDescription;
         }
+
     }
 }
