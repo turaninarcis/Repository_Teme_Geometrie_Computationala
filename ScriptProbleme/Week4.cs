@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Drawing = System.Drawing;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 {
     class Week4:BaseWeek
     {
 
+
         public Week4(MainWindow mainWindow):base(mainWindow) {
             ProblemMethodsList.Add(AssignProblem1);
+
         }
         public void AssignProblem1(object obj, RoutedEventArgs e)
         {
@@ -22,10 +25,6 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             Drawing.Point[] invelitoare = GetPerimeter(puncte);
             helper.DrawConnectingLines(invelitoare);
         }
-
-
-
-
 
         private Drawing.Point[] GetPerimeter(Drawing.Point[] puncte)
         {

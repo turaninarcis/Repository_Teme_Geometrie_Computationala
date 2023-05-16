@@ -17,10 +17,40 @@ namespace Repository_Teme_Geometrie_Computationala
         Random random = new Random();
         int marimePen = 3;
         Graphics graphics;
-        public Helper(ref Bitmap bitMapToBeUsed,ref Graphics graphics)
+        int indexPunct = 0;
+        Drawing.Point[] puncte;
+        DispatcherTimer timer = new DispatcherTimer();
+        BaseWeek baseWeek;
+        public Helper(BaseWeek baseWeek)
         {
-            BitmapToBeUsed = bitMapToBeUsed;
-            this.graphics = graphics;
+            this.baseWeek = baseWeek;
+            BitmapToBeUsed = baseWeek.bitmap;
+            this.graphics = baseWeek.graphics;
+            timer.Interval = TimeSpan.FromMilliseconds(70);
+            timer.Tick += timer_Tick;
+        }
+
+
+        public void DrawConnectingLines(Drawing.Point[] puncte)
+        {
+            this.puncte = puncte;
+            timer.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if (indexPunct < puncte.Length - 1)
+            {
+                graphics.DrawLine(new Drawing.Pen(Drawing.Color.Black, 2), puncte[indexPunct], puncte[indexPunct + 1]);
+                indexPunct++;
+            }
+            else
+            {
+                graphics.DrawLine(new Drawing.Pen(Drawing.Color.Black, 2), puncte[0], puncte[puncte.Length - 1]);
+                indexPunct = 0;
+                timer.Stop();
+            }
+            baseWeek.AssignImage();
         }
 
         public Drawing.Point[] GenerarePuncteAleatorii(int numarPuncte)
@@ -122,18 +152,6 @@ namespace Repository_Teme_Geometrie_Computationala
                 }
             } while (ok == false);
         }
-
-        public void DrawConnectingLines(Drawing.Point[] puncte)
-        {
-
-            for (int i = 0; i < puncte.Length - 1; i++)
-            {
-                graphics.DrawLine(new Drawing.Pen(Drawing.Color.Black, marimePen), puncte[i], puncte[i + 1]);
-            }
-            graphics.DrawLine(new Drawing.Pen(Drawing.Color.Black, marimePen), puncte[0], puncte[puncte.Length - 1]);
-        }
-
-
 
         public void GenerareNumarLangaPuncte(Drawing.Point[] puncte)
         {
