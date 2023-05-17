@@ -23,7 +23,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             helper.DesenarePunctePeFormular(puncte, Drawing.Pens.Red, 4);
             helper.SortarePuncte(puncte);
             Drawing.Point[] invelitoare = GetPerimeter(puncte);
-            helper.DrawConnectingLines(invelitoare);
+            helper.DesenareLiniiIntrePuncte(invelitoare);
         }
 
         private Drawing.Point[] GetPerimeter(Drawing.Point[] puncte)

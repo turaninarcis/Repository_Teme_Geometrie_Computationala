@@ -55,7 +55,7 @@
             <TextBlock x:Name="ProblemDetailsText"
                        Margin="10"
                        TextWrapping="Wrap"
-                       FontSize="25"
+                       FontSize="16"
                         />
         </ScrollViewer>
     </Grid>

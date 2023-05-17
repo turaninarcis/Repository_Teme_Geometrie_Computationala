@@ -22,19 +22,19 @@ namespace Repository_Teme_Geometrie_Computationala
         }
         public void AssignProblem1(object obj, RoutedEventArgs e) 
         {
-            Exercitiu_1(bitmap, 200);
+            Exercitiu_1(200);
 
         }
         public void AssignProblem2(object obj, RoutedEventArgs e)
         {
-            Exercitiu_2(bitmap, 200,200);
+            Exercitiu_2(200,200);
 
         }
         public void AssignProblem3(object obj, RoutedEventArgs e)
         {
-            Exercitiu_3(bitmap,300,new Drawing.Point(100,100));
+            Exercitiu_3(300,new Drawing.Point(100,100));
         }
-        private void Exercitiu_1(Bitmap bitmap, int numarPuncte)
+        private void Exercitiu_1(int numarPuncte)
         {
             int MultiplicatorMarime = 3;
             Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Black, MultiplicatorMarime);
@@ -66,12 +66,12 @@ namespace Repository_Teme_Geometrie_Computationala
             graphics.DrawRectangle(pen, dreptunghi);
         }
 
-        private void Exercitiu_2(Bitmap bitmap, int numarPuncte1, int numarPuncte2)
+        private void Exercitiu_2(int numarPuncte1, int numarPuncte2)
         {
 
             int MultiplicatorMarime = 3;
-            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
 
+            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
             Drawing.Point[] primaGrupa = helper.GenerarePuncteAleatorii(numarPuncte1);
             helper.DesenarePunctePeFormular(primaGrupa, pen, MultiplicatorMarime);
 
@@ -84,6 +84,8 @@ namespace Repository_Teme_Geometrie_Computationala
             double distantaDintrePuncte;
             double distantaMinimaDintrePuncte;
             int ContorPozitie = 0;
+
+
             for (int i = 0; i < numarPuncte1; i++)
             {
                 distantaMinimaDintrePuncte = Int32.MaxValue;
@@ -101,9 +103,8 @@ namespace Repository_Teme_Geometrie_Computationala
             }
         }
 
-        private void Exercitiu_3(Bitmap bitmap, int numarPuncte, Drawing.Point CentrulCercului)
+        private void Exercitiu_3(int numarPuncte, Drawing.Point CentrulCercului)
         {
-
             int MultiplicatorMarime = 4;
             Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
 

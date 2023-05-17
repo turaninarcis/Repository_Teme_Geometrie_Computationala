@@ -58,9 +58,5 @@ namespace Repository_Teme_Geometrie_Computationala
             mainWindow.image.Source = imageSource;
         }
 
-
-
-
-
     }
 }

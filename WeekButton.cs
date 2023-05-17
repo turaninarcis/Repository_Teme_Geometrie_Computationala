@@ -76,7 +76,7 @@ namespace Repository_Teme_Geometrie_Computationala
                         indexProblem++;
                     }
                     else
-                        bufferText[indexText] += buffer + "\n\r";
+                        bufferText[indexText] += buffer +"\n";
                 }
             }
         }      

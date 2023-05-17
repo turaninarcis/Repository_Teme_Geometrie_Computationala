@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Security.Cryptography;
 
 namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 {
@@ -30,7 +31,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         }
         public void AssignProblem3(object obj, RoutedEventArgs e)
         {
-            //Exercitiu_3(bitmap, 300, new Drawing.Point(100, 100));
+            Exercitiu_3(200);
         }
         private void Exercitiu_1(int nrPuncte, int distanta)
         {
@@ -89,19 +90,18 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                 }
             }
             Pen penLinie = new Pen(Color.Red, 2);
-            graphics.DrawLine(penLinie, puncteArieMinima[0], puncteArieMinima[1]);
-            graphics.DrawLine(penLinie, puncteArieMinima[1], puncteArieMinima[2]);
-            graphics.DrawLine(penLinie, puncteArieMinima[2], puncteArieMinima[0]);
+            helper.DesenareTriunghi(puncteArieMinima, penLinie);
         }
 
         private void Exercitiu_3(int numarPuncte)
         {
-            /*Point[] puncte = helper.GenerarePuncteAleatorii (numarPuncte);
-            int extremaDreaptaX;
-            int extremaSusY;
-            int extremaStangaX;
-            int extremaJosY;
-            */
+            Drawing.Point[] puncte = helper.GenerarePuncteAleatoriiConstrained(numarPuncte, 100, 400, 100, 300);
+            Drawing.Pen pen = new Drawing.Pen(Color.Black, 3);
+            helper.DesenarePunctePeFormular(puncte,pen,2);
+            Helper.Circle circle= new Helper.Circle();
+            circle = Helper.MakeCircle(puncte);
+
+            graphics.DrawEllipse(Drawing.Pens.Red, (int)circle.center.x-(int)circle.radius, (int)circle.center.y-(int)circle.radius, (int)circle.radius*2, (int)circle.radius*2);
         }
     }
 }

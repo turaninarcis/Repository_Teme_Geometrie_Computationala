@@ -9,5 +9,5 @@ BlaBla
 *
 Se dă o mulțime de puncte în plan. Să se determine cercul de rază minimă care să conțină toate punctele date în interior. (Minimal enclosing circle)
 #
-BlaBla
+Pentru rezolvarea acestei probleme m-am folosit de algoritmul lui Welzl.
 *

@@ -1,5 +1,8 @@
 ﻿1
 Se dă o mulțime de puncte în plan. Să se determine învelitoarea convexă a acestei mulțimi.
+Soluție (o metodă, la alegere, dintre):
+1. Algoritmul slab de determinare a învelitorii convexe.
+2. Algoritmul de determinare a învelitorii convexe prin determinarea învelitorii superioare și a învelitorii inferioare.
 #
-BlaBla
+Algoritmul ales de catre mine este acela de determinare a invelitorii conexe prin determinarea invelitorii superioare si a invelitorii inferioare.
 *

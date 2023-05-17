@@ -1,13 +1,16 @@
 ﻿3
 Se dă o mulțime de puncte în plan. Să se determine dreptunghiul de arie minimă care să conțină toate punctele date în interior.
 #
-BlaBlaBla
+Pentru rezolvarea acestei probleme am determinat coordonatele X si Y minime si maxime din lista de puncte iar mai apoi am creat un dreptunghi care are colturile in coordonatele X minim Y minim respectiv X maxim Y maxim.
 *
 Se dau două mulțimi de puncte în plan. Pentru fiecare punct din prima mulțime să se găsească cel mai apropiat punct din cea de a doua mulțime.
 #
-BlaBla
+Cu ajutorul unui for in for am calculat toate distantele intre punctele dintr-o grupa si punctele din cealalta grupa.
+La finalul celui de-al doilea for am trasat o linie intre punctul din prima grupa si punctul corespunzator celei de-a doua grupe.
 *
 Se dau n puncte în plan. Pentru un punct dat q să se determine cercul cu centrul în q și de rază maximă care să nu conțină niciun punct din mulțimea dată.
 #
-BlaBlaBla
+Am inceput prin a avea o variabila care tine minte distanta minima intre centrul cercului si punctele din lista.
+Aceasta variabila a fost initiata cu ajutorul constantei int.MaxValue dupa care atunci cand se gasea o distanta mai mica decat aceasta intre centrul cercului si punctul curent, ii se asocia acea valoare.
+
 *
