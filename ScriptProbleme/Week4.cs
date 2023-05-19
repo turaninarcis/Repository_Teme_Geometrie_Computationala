@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Drawing = System.Drawing;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 {
@@ -19,18 +14,20 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         }
         public void AssignProblem1(object obj, RoutedEventArgs e)
         {
-            Drawing.Point[] puncte = helper.GenerarePuncteAleatorii(200);
-            helper.DesenarePunctePeFormular(puncte, Drawing.Pens.Red, 4);
+            int padding = 30;
+            Point[] puncte = helper.GenerarePuncteAleatoriiConstrained(100, padding, (int)mainWindow.canvas.ActualWidth - padding, padding, (int)mainWindow.canvas.ActualHeight - padding);
+            helper.DesenarePunctePeFormular(puncte,new Pen(Brushes.Black,4));
             helper.SortarePuncte(puncte);
-            Drawing.Point[] invelitoare = GetPerimeter(puncte);
+            Point[] invelitoare = GetPerimeter(puncte);
+            helper.DesenarePunctPeFormular(invelitoare[0], new Pen(Brushes.Red,4));
             helper.DesenareLiniiIntrePuncte(invelitoare);
         }
 
-        private Drawing.Point[] GetPerimeter(Drawing.Point[] puncte)
+        private Point[] GetPerimeter(Point[] puncte)
         {
-            List<Drawing.Point> sup = new List<Drawing.Point>();
-            List<Drawing.Point> inf = new List<Drawing.Point>();
-            Drawing.Point[] final;
+            List<Point> sup = new List<Point>();
+            List<Point> inf = new List<Point>();
+            Point[] final;
 
             sup.Add(puncte[0]);
             sup.Add(puncte[1]);
@@ -57,14 +54,14 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
             inf.Remove(inf[0]);
             inf.Remove(inf[inf.Count - 1]);
-            final = new Drawing.Point[inf.Count + sup.Count];
+            final = new Point[inf.Count + sup.Count];
             int indexIntrodus = 0;
-            foreach (Drawing.Point p in inf)
+            foreach (Point p in inf)
             {
                 final[indexIntrodus] = p;
                 indexIntrodus++;
             }
-            foreach (Drawing.Point p in sup)
+            foreach (Point p in sup)
             {
                 final[indexIntrodus] = p;
                 indexIntrodus++;

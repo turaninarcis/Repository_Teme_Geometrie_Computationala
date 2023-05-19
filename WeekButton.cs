@@ -45,9 +45,8 @@ namespace Repository_Teme_Geometrie_Computationala
             {
                 ProblemButton button = new ProblemButton(problems[i-1],i);
                 button.Click += AssignTextToTextBlock;
-                button.Click += week.ResetBitmap;
+                button.Click += week.ResetHelper;
                 button.Click += week.GetMethod(i - 1);
-                button.Click += week.AssignImage;
                 stackPanelProblems.Children.Add(button);
             }
         }

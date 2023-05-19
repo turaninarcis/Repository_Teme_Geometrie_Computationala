@@ -32,13 +32,15 @@
             <StackPanel x:Name="SetWeeksPanel" />
 
         </ScrollViewer>
-        <DataGridCell Background="GhostWhite"
+        <DataGridCell Background="SlateGray"
                       Margin="10">
 
-            <Image Grid.Column="0"
-                   x:Name="image"
-                   Stretch="Fill"
-                   Margin="10" />
+            <Canvas Grid.Row="0"
+                    Margin="10"
+                    x:Name="canvas"
+                    Background="White"
+                    ClipToBounds="True"
+                />
         </DataGridCell>
         
         <GridSplitter Grid.Row="1"

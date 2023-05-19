@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Drawing = System.Drawing;
 namespace Repository_Teme_Geometrie_Computationala
 {
     internal class Week1:BaseWeek
@@ -32,55 +24,49 @@ namespace Repository_Teme_Geometrie_Computationala
         }
         public void AssignProblem3(object obj, RoutedEventArgs e)
         {
-            Exercitiu_3(300,new Drawing.Point(100,100));
+            Exercitiu_3(300,new Point(100,100));
         }
         private void Exercitiu_1(int numarPuncte)
         {
             int MultiplicatorMarime = 3;
-            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Black, MultiplicatorMarime);
             Random random = new Random();
 
             int indentation = 30;
-            int MaxSizeX = bitmap.Width - indentation;
-            int MaxSizeY = bitmap.Height - indentation;
-            int marimeCerc = MultiplicatorMarime;
+            double MaxSizeX = mainWindow.canvas.ActualWidth - indentation;
+            double MaxSizeY = mainWindow.canvas.ActualHeight - indentation;
+            double marimeCerc = MultiplicatorMarime;
 
-            int xMin = bitmap.Width;
-            int yMin = bitmap.Height;
-            int xMax = 0;
-            int yMax = 0;
-            int x, y;
+            double xMin = mainWindow.canvas.ActualWidth;
+            double yMin = mainWindow.canvas.ActualHeight;
+            double xMax = 0;
+            double yMax = 0;
+            double x, y;
             for (int i = 0; i < numarPuncte; i++)
             {
-                x = random.Next(indentation, MaxSizeX);
+                x = random.Next(indentation, (int)MaxSizeX);
                 if (x < xMin) { xMin = x; }
                 else if (x > xMax) { xMax = x; }
-                y = random.Next(indentation, MaxSizeY);
+                y = random.Next(indentation, (int)MaxSizeY);
                 if (y < yMin) { yMin = y; }
                 else if (y > yMax) { yMax = y; }
-
-                graphics.DrawEllipse(pen, x - marimeCerc / 2, y - marimeCerc / 2, marimeCerc, marimeCerc);
+                helper.DesenareCerc(new Point(x, y), marimeCerc/2, commonPointPen);
             }
-            Rectangle dreptunghi = helper.FormareDreptunghiCuDouaPuncte(xMin, yMin, xMax, yMax);
-            pen.Color = Drawing.Color.Red;
-            graphics.DrawRectangle(pen, dreptunghi);
+            commonPointPen.Brush = Brushes.Red;
+            helper.DesenareDreptunghi(xMin, yMin, xMax, yMax);
         }
 
         private void Exercitiu_2(int numarPuncte1, int numarPuncte2)
         {
-
-            int MultiplicatorMarime = 3;
-
-            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
-            Drawing.Point[] primaGrupa = helper.GenerarePuncteAleatorii(numarPuncte1);
-            helper.DesenarePunctePeFormular(primaGrupa, pen, MultiplicatorMarime);
+            commonPointPen.Brush = Brushes.Red;
+            Point[] primaGrupa = helper.GenerarePuncteAleatorii(numarPuncte1);
+            helper.DesenarePunctePeFormular(primaGrupa, commonPointPen);
 
 
-            pen.Color = Drawing.Color.Blue;
-            Drawing.Point[] aDouaGrupa = helper.GenerarePuncteAleatorii(numarPuncte2);
-            helper.DesenarePunctePeFormular(aDouaGrupa, pen, MultiplicatorMarime);
+            commonPointPen.Brush = Brushes.Blue;
+            Point[] aDouaGrupa = helper.GenerarePuncteAleatorii(numarPuncte2);
+            helper.DesenarePunctePeFormular(aDouaGrupa, commonPointPen);
 
-            pen.Color = Drawing.Color.Black;
+            commonPointPen.Brush = Brushes.Black;
             double distantaDintrePuncte;
             double distantaMinimaDintrePuncte;
             int ContorPozitie = 0;
@@ -98,30 +84,29 @@ namespace Repository_Teme_Geometrie_Computationala
                         ContorPozitie = j;
                     }
                 }
-
-                graphics.DrawLine(pen, primaGrupa[i], aDouaGrupa[ContorPozitie]);
+                helper.DesenareLinie(primaGrupa[i], aDouaGrupa[ContorPozitie], commonPointPen);
             }
         }
 
-        private void Exercitiu_3(int numarPuncte, Drawing.Point CentrulCercului)
+        private void Exercitiu_3(int numarPuncte, Point CentrulCercului)
         {
             int MultiplicatorMarime = 4;
-            Drawing.Pen pen = new Drawing.Pen(Drawing.Color.Red, MultiplicatorMarime);
+            Pen pen = new Pen(Brushes.Red, MultiplicatorMarime);
 
-            Drawing.Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
-            helper.DesenarePunctePeFormular(puncte, pen, MultiplicatorMarime);
+            Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
+            helper.DesenarePunctePeFormular(puncte, pen);
 
             double razaMaxima = int.MaxValue;
             double razaCurenta;
-            foreach (Drawing.Point point in puncte)
+            foreach (Point point in puncte)
             {
                 razaCurenta = helper.DistantaIntreDouaPuncte(point, CentrulCercului);
                 if (razaCurenta < razaMaxima)
                     razaMaxima = razaCurenta;
             }
 
-            pen.Color = Drawing.Color.Blue;
-            graphics.DrawEllipse(pen, (float)(CentrulCercului.X - razaMaxima), (float)(CentrulCercului.Y - razaMaxima), (float)(razaMaxima * 2), (float)(razaMaxima * 2));
+            pen.Brush = Brushes.Blue;
+            helper.DesenareCerc(CentrulCercului, razaMaxima, pen);
         }
     }
 }

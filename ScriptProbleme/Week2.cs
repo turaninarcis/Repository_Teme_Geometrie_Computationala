@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Drawing = System.Drawing;
-using System.Drawing;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Security.Cryptography;
+﻿using System.Windows;
+using System.Windows.Media;
 
 namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 {
@@ -35,37 +27,37 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         }
         private void Exercitiu_1(int nrPuncte, int distanta)
         {
-            Drawing.Point punctPrincipal = helper.GenerarePunctAleatoriu();
-            Drawing.Point[] puncteSecundare = helper.GenerarePuncteAleatorii(nrPuncte);
+            Point punctPrincipal = helper.GenerarePunctAleatoriu();
+            Point[] puncteSecundare = helper.GenerarePuncteAleatorii(nrPuncte);
             double auxDistanta;
             int razaMaxima = distanta;
             int marimePunct = 4;
-            Pen penPunctPrincipal = new Pen(Color.Blue, marimePunct);
-            Pen penPunctApropiat = new Pen(Color.Red, marimePunct);
-            Pen penPunctDepartat = new Pen(Color.Black, marimePunct);
-            foreach (Drawing.Point point in puncteSecundare)
+            Pen penPunctPrincipal = new Pen(Brushes.Blue, marimePunct);
+            Pen penPunctApropiat = new Pen(Brushes.Red, marimePunct);
+            Pen penPunctDepartat = new Pen(Brushes.Black, marimePunct);
+            foreach (Point point in puncteSecundare)
             {
                 auxDistanta = helper.DistantaIntreDouaPuncte(punctPrincipal, point);
                 if (auxDistanta <= distanta)
                 {
-                    helper.DesenarePunctPeFormular(point,penPunctApropiat, marimePunct);
+                    helper.DesenarePunctPeFormular(point,penPunctApropiat);
                 }
                 else
                 {
-                    helper.DesenarePunctPeFormular(point, penPunctDepartat, marimePunct);
+                    helper.DesenarePunctPeFormular(point, penPunctDepartat);
                 }
             }
-            graphics.DrawEllipse(penPunctPrincipal, (float)(punctPrincipal.X - razaMaxima), (float)(punctPrincipal.Y - razaMaxima), (float)(razaMaxima * 2), (float)(razaMaxima * 2));
+            helper.DesenareCerc(new Point(punctPrincipal.X, punctPrincipal.Y), razaMaxima, penPunctPrincipal);
 
-            helper.DesenarePunctPeFormular(punctPrincipal, penPunctPrincipal, marimePunct);
+            helper.DesenarePunctPeFormular(punctPrincipal, penPunctPrincipal);
         }
 
         private void Exercitiu_2(int numarPuncte)
         {
 
-            Drawing.Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
-            helper.DesenarePunctePeFormular(puncte, new Pen(Color.Black, 2), 2);
-            Drawing.Point[] puncteArieMinima = new Drawing.Point[3];
+            Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
+            helper.DesenarePunctePeFormular(puncte, commonPointPen);
+            Point[] puncteArieMinima = new Point[3];
             double aria = int.MaxValue;
             double ariaAux;
             double perimetru = int.MaxValue;
@@ -89,19 +81,19 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     }
                 }
             }
-            Pen penLinie = new Pen(Color.Red, 2);
+            Pen penLinie = new Pen(Brushes.Red, 2);
             helper.DesenareTriunghi(puncteArieMinima, penLinie);
         }
 
         private void Exercitiu_3(int numarPuncte)
         {
-            Drawing.Point[] puncte = helper.GenerarePuncteAleatoriiConstrained(numarPuncte, 100, 400, 100, 300);
-            Drawing.Pen pen = new Drawing.Pen(Color.Black, 3);
-            helper.DesenarePunctePeFormular(puncte,pen,2);
+            int Width = (int)mainWindow.canvas.ActualWidth/2;
+            int Height = (int)mainWindow.canvas.ActualHeight/2;
+            Point[] puncte = helper.GenerarePuncteAleatoriiConstrained(numarPuncte, Width-100, Width+100, Height-100, Height+100);
+            helper.DesenarePunctePeFormular(puncte,commonPointPen);
             Helper.Circle circle= new Helper.Circle();
             circle = Helper.MakeCircle(puncte);
-
-            graphics.DrawEllipse(Drawing.Pens.Red, (int)circle.center.x-(int)circle.radius, (int)circle.center.y-(int)circle.radius, (int)circle.radius*2, (int)circle.radius*2);
+            helper.DesenareCerc(new Point(circle.center.x, circle.center.y), circle.radius, new Pen(Brushes.Red, 1));
         }
     }
 }

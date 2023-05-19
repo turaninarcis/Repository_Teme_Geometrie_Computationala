@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using Drawing = System.Drawing;
 
 namespace Repository_Teme_Geometrie_Computationala
 {
@@ -17,16 +9,14 @@ namespace Repository_Teme_Geometrie_Computationala
     {
         internal MainWindow mainWindow;
         public List<RoutedEventHandler> ProblemMethodsList;
-
-        internal Bitmap bitmap;
+        internal static MouseButtonEventHandler mouseEventHandler;
         internal Helper helper;
-        internal Graphics graphics;
- 
+        internal static int marimePen = 5;
+        internal Pen commonPointPen = new Pen(Brushes.Black, marimePen);
         public BaseWeek(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            System.Windows.Controls.Image image = mainWindow.image;
-            ResetBitmap();
+            ResetHelper();
             ProblemMethodsList = new List<RoutedEventHandler>();
         }
         public RoutedEventHandler GetMethod(int ProblemNumber)
@@ -34,29 +24,27 @@ namespace Repository_Teme_Geometrie_Computationala
             return ProblemMethodsList[ProblemNumber];
         }
 
-        public void ResetBitmap(object obj, RoutedEventArgs e)
+        public void ResetHelper(object obj, RoutedEventArgs e)
         {
-            bitmap = new Bitmap((int)mainWindow.Width, (int)mainWindow.Height);
-            graphics = Graphics.FromImage(bitmap);
             helper = new Helper(this);
+            try
+            {
+                mainWindow.canvas.MouseLeftButtonDown -=mouseEventHandler;
+            }
+            catch (System.Exception)
+            {
+            }
+
+            mainWindow.canvas.Children.Clear();
         }
-        public void ResetBitmap()
+        public void ResetHelper()
         {
-            bitmap = new Bitmap((int)mainWindow.Width, (int)mainWindow.Height);
-            graphics = Graphics.FromImage(bitmap);
             helper = new Helper(this);
+            Mouse.OverrideCursor = null; ;
+            mainWindow.canvas.Children.Clear();
         }
 
-        public void AssignImage(object obj, RoutedEventArgs e)
-        {
-            ImageSource imageSource = BitmapConverter.ImageSourceFromBitmap(bitmap);
-            mainWindow.image.Source = imageSource;
-        }
-        public void AssignImage()
-        {
-            ImageSource imageSource = BitmapConverter.ImageSourceFromBitmap(bitmap);
-            mainWindow.image.Source = imageSource;
-        }
+
 
     }
 }

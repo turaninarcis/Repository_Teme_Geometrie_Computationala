@@ -44,10 +44,10 @@ namespace Repository_Teme_Geometrie_Computationala
             weeks.Clear();
             weeks.Add(new Week1(this));
             weeks.Add(new Week2(this));
-            weeks.Add(new Week1(this));
+            weeks.Add(new Week3(this));
             weeks.Add(new Week4(this));
-            weeks.Add(new Week1(this));
-            weeks.Add(new Week1(this));
+            weeks.Add(new Week5(this));
+            weeks.Add(new Week6(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
