@@ -37,7 +37,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             Pen penPunctDepartat = new Pen(Brushes.Black, marimePunct);
             foreach (Point point in puncteSecundare)
             {
-                auxDistanta = helper.DistantaIntreDouaPuncte(punctPrincipal, point);
+                auxDistanta = Helper.DistantaIntreDouaPuncte(punctPrincipal, point);
                 if (auxDistanta <= distanta)
                 {
                     helper.DesenarePunctPeFormular(point,penPunctApropiat);
@@ -69,7 +69,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     for (int k = j + 1; k < numarPuncte; k++)
                     {
                         //ariaAux = helper.AriaUnuiTriunghi(puncte[i], puncte[j], puncte[k]);
-                        perimetruAux = helper.PerimetrulUnuiTriunghi(puncte[i], puncte[j], puncte[k]);
+                        perimetruAux = Helper.PerimetrulUnuiTriunghi(puncte[i], puncte[j], puncte[k]);
                         if (perimetruAux < perimetru)
                         {
                             //aria = ariaAux;

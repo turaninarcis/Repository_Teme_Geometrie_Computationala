@@ -36,7 +36,6 @@ namespace Repository_Teme_Geometrie_Computationala
             ResetMouseClicks();
             mainWindow.canvas.Children.Clear();
         }
-
         public void ResetMouseClicks()
         {
             try

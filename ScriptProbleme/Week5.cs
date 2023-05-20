@@ -46,7 +46,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                 nextPoint = points[0];
                 for(int i = 0;i<points.Length;i++) 
                 {
-                    if(nextPoint == on_hull || helper.GetDirection(on_hull, nextPoint, points[i])==Helper.Directie.Dreapta)
+                    if(nextPoint == on_hull || Helper.GetDirection(on_hull, nextPoint, points[i])==Helper.Directie.Dreapta)
                         nextPoint = points[i];
                 }
                 on_hull= nextPoint;

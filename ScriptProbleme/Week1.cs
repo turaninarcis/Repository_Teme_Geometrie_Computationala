@@ -77,7 +77,7 @@ namespace Repository_Teme_Geometrie_Computationala
                 distantaMinimaDintrePuncte = Int32.MaxValue;
                 for (int j = 0; j < numarPuncte2; j++)
                 {
-                    distantaDintrePuncte = helper.DistantaIntreDouaPuncte(primaGrupa[i], aDouaGrupa[j]);
+                    distantaDintrePuncte = Helper.DistantaIntreDouaPuncte(primaGrupa[i], aDouaGrupa[j]);
                     if (distantaDintrePuncte < distantaMinimaDintrePuncte)
                     {
                         distantaMinimaDintrePuncte = distantaDintrePuncte;
@@ -91,7 +91,7 @@ namespace Repository_Teme_Geometrie_Computationala
         private void Exercitiu_3(int numarPuncte, Point CentrulCercului)
         {
             int MultiplicatorMarime = 4;
-            Pen pen = new Pen(Brushes.Red, MultiplicatorMarime);
+            Pen pen = new Pen(Brushes.Black, MultiplicatorMarime);
 
             Point[] puncte = helper.GenerarePuncteAleatorii(numarPuncte);
             helper.DesenarePunctePeFormular(puncte, pen);
@@ -100,12 +100,12 @@ namespace Repository_Teme_Geometrie_Computationala
             double razaCurenta;
             foreach (Point point in puncte)
             {
-                razaCurenta = helper.DistantaIntreDouaPuncte(point, CentrulCercului);
+                razaCurenta = Helper.DistantaIntreDouaPuncte(point, CentrulCercului);
                 if (razaCurenta < razaMaxima)
                     razaMaxima = razaCurenta;
             }
 
-            pen.Brush = Brushes.Blue;
+            pen.Brush = Brushes.Red;
             helper.DesenareCerc(CentrulCercului, razaMaxima, pen);
         }
     }

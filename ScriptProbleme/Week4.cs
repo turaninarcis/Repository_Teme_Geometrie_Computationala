@@ -17,7 +17,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             int padding = 30;
             Point[] puncte = helper.GenerarePuncteAleatoriiConstrained(100, padding, (int)mainWindow.canvas.ActualWidth - padding, padding, (int)mainWindow.canvas.ActualHeight - padding);
             helper.DesenarePunctePeFormular(puncte,new Pen(Brushes.Black,4));
-            helper.SortarePuncte(puncte);
+            Helper.SortarePuncte(puncte);
             Point[] invelitoare = GetPerimeter(puncte);
             helper.DesenarePunctPeFormular(invelitoare[0], new Pen(Brushes.Red,4));
             helper.DesenareLiniiIntrePuncte(invelitoare);
@@ -35,7 +35,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             for (int i = 2; i < puncte.Length; i++)
             {
                 sup.Add(puncte[i]);
-                while (sup.Count > 2 && helper.GetDirection(sup[sup.Count - 1], sup[sup.Count - 2], sup[sup.Count - 3]) != Helper.Directie.Dreapta)
+                while (sup.Count > 2 && Helper.GetDirection(sup[sup.Count - 1], sup[sup.Count - 2], sup[sup.Count - 3]) != Helper.Directie.Dreapta)
                 {
                     sup.Remove(sup[sup.Count - 2]);
                 }
@@ -46,7 +46,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             for (int i = puncte.Length - 3; i >= 0; i--)
             {
                 inf.Add(puncte[i]);
-                while (inf.Count > 2 && helper.GetDirection(inf[inf.Count - 1], inf[inf.Count - 2], inf[inf.Count - 3]) != Helper.Directie.Dreapta)
+                while (inf.Count > 2 && Helper.GetDirection(inf[inf.Count - 1], inf[inf.Count - 2], inf[inf.Count - 3]) != Helper.Directie.Dreapta)
                 {
                     inf.Remove(inf[inf.Count - 2]);
                 }

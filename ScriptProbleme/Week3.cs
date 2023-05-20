@@ -21,18 +21,18 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         }
         public void Exercitiu_2(int nrLinii)
         {
-            Helper.Segment[] segmente = new Helper.Segment[nrLinii];
+            Helper.SegmentPointEvent[] segmente = new Helper.SegmentPointEvent[nrLinii];
             for(int i = 0;i<nrLinii;i++)
             {
                 Helper.PointEvent a = new Helper.PointEvent(helper.GenerarePunctAleatoriu());
                 Helper.PointEvent b = new Helper.PointEvent(helper.GenerarePunctAleatoriu());
 
-                segmente[i] = new Helper.Segment(a,b);
+                segmente[i] = new Helper.SegmentPointEvent(a,b);
                 helper.DesenareLinie(segmente[i].a.point, segmente[i].b.point, new Pen(Brushes.Black, 3));
             }
             EventPointComparer comparer = new EventPointComparer();
 
-            SortedList<Helper.Segment, Comparer> sortedList = new SortedList<Helper.Segment, Comparer>();
+            SortedList<Helper.SegmentPointEvent, Comparer> sortedList = new SortedList<Helper.SegmentPointEvent, Comparer>();
             
 
             

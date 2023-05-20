@@ -13,7 +13,7 @@ namespace Repository_Teme_Geometrie_Computationala
     {
 
         #region Declarari
-        Random random = new Random();
+        static Random random = new Random();
         DispatcherTimer timer = new DispatcherTimer();
         BaseWeek baseWeek;
         int indexPunct = 0;
@@ -44,6 +44,9 @@ namespace Repository_Teme_Geometrie_Computationala
                 timer.Stop();
             }
         }
+
+
+
 
 
         #region Generare_Puncte
@@ -85,17 +88,17 @@ namespace Repository_Teme_Geometrie_Computationala
         #endregion
 
         #region Math_Region
-        public double DistantaIntreDouaPuncte(double x1, double y1, double x2, double y2)
+        public static double DistantaIntreDouaPuncte(double x1, double y1, double x2, double y2)
         {
             double distanta = Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
             return distanta;
         }
-        public double DistantaIntreDouaPuncte(Point p1, Point p2)
+        public static double DistantaIntreDouaPuncte(Point p1, Point p2)
         {
             double distanta = Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
             return distanta;
         }
-        public double AriaUnuiTriunghi(Point p1, Point p2, Point p3)
+        public static double AriaUnuiTriunghi(Point p1, Point p2, Point p3)
         {
             double aria;
             double a = DistantaIntreDouaPuncte(p1, p2);
@@ -105,7 +108,7 @@ namespace Repository_Teme_Geometrie_Computationala
             aria = Math.Sqrt(semiperimetru * (semiperimetru - a) * (semiperimetru - b) * (semiperimetru - c));
             return aria;
         }
-        public double PerimetrulUnuiTriunghi(Point p1, Point p2, Point p3)
+        public static double PerimetrulUnuiTriunghi(Point p1, Point p2, Point p3)
         {
             double a = DistantaIntreDouaPuncte(p1, p2);
             double b = DistantaIntreDouaPuncte(p2, p3);
@@ -113,7 +116,7 @@ namespace Repository_Teme_Geometrie_Computationala
             double perimetru = (a + b + c);
             return perimetru;
         }
-        public void SortarePuncte(Point[] puncte)
+        public static void SortarePuncte(Point[] puncte)
         {
             bool ok = true;
             Point aux;
@@ -299,9 +302,9 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             Line line = new Line()
             {
-                Fill = Brushes.Black,
+                Fill = penLinie.Brush,
                 StrokeThickness = 2,
-                Stroke = Brushes.Black,
+                Stroke = penLinie.Brush,
             };
             line.X1 = a.X;
             line.Y1 = a.Y;
@@ -311,6 +314,7 @@ namespace Repository_Teme_Geometrie_Computationala
         }
         public void DesenareTriunghi(Point[] puncte, Pen penLinie) 
         {
+            penLinie.Brush = Brushes.Red;
             DesenareLinie(puncte[0], puncte[1],penLinie);
             DesenareLinie(puncte[1], puncte[2], penLinie);
             DesenareLinie(puncte[0], puncte[2], penLinie);
@@ -372,6 +376,15 @@ namespace Repository_Teme_Geometrie_Computationala
             if(pointList.Count>=3)DesenareLinie(pointList[0], pointList[pointList.Count - 1], new Pen(Brushes.Black, 2));
         }
 
+        public void TriangularePoligonConvex(object obj, MouseButtonEventArgs e)
+        {
+            CreateLineBetweenLastPoints(obj, e);
+            for(int i = 1;i<= pointList.Count-1;i++)
+            {
+                DesenareLinie(pointList[0], pointList[i], new Pen(Brushes.Black, 2));
+            }
+        }
+
         #endregion
 
         #region Structuri_Custom
@@ -431,11 +444,32 @@ namespace Repository_Teme_Geometrie_Computationala
 
         }
 
+
         public struct Segment
+        {
+            public Point a;
+            public Point b;
+            public double lungime;
+            public Segment(Point a, Point b) 
+            {
+                this.a = a;
+                this.b = b;
+                lungime = Helper.DistantaIntreDouaPuncte(a, b);
+            }
+        }
+
+        public static int SegmentComparer(Segment a, Segment b)
+        {
+            if(a.lungime==b.lungime) { return 0; }
+            else if(a.lungime<b.lungime) { return -1; }
+            else { return 1; }
+        }
+
+        public struct SegmentPointEvent
         {
             public PointEvent a;
             public PointEvent b;
-            public Segment(PointEvent a, PointEvent b)
+            public SegmentPointEvent(PointEvent a, PointEvent b)
             {
                 this.a = a;
                 this.b = b;
@@ -445,9 +479,9 @@ namespace Repository_Teme_Geometrie_Computationala
         public struct PointEvent
         {
             public Point point;
-            public List<Segment> SegmentsForWhichPointIsLower;
-            public List<Segment> SegmentsForWhichPointIsUpper;
-            public List<Segment> SegmentsForWhichPointIsInterior;
+            public List<SegmentPointEvent> SegmentsForWhichPointIsLower;
+            public List<SegmentPointEvent> SegmentsForWhichPointIsUpper;
+            public List<SegmentPointEvent> SegmentsForWhichPointIsInterior;
             public PointEvent(Point point)
             {
                 this.point = point;
@@ -462,7 +496,14 @@ namespace Repository_Teme_Geometrie_Computationala
         }
         public enum Directie { Stanga, Linie, Dreapta }
 
-        public Directie GetDirection(Point a, Point b, Point c)
+        public static bool IsIntersection(Segment s, Segment p)
+        {
+            if(GetDirectionDouble(p.b,p.a,s.a)*GetDirectionDouble(p.b,p.a,s.b)<0 && GetDirectionDouble(s.b, s.a, p.a) * GetDirectionDouble(s.b, s.a, p.b)<0)
+                    return true;
+            return false;
+        }
+
+        public static Directie GetDirection(Point a, Point b, Point c)
         {
             double aux1 = a.X * b.Y + b.X * c.Y + a.Y * c.X;
             double aux2 = c.X * b.Y + c.Y * a.X + b.X * a.Y;
@@ -477,6 +518,15 @@ namespace Repository_Teme_Geometrie_Computationala
                 return Directie.Dreapta;
             }
             else return Directie.Linie;
+        }
+
+        public static double GetDirectionDouble(Point a, Point b, Point c)
+        {
+            double aux1 = a.X * b.Y + b.X * c.Y + a.Y * c.X;
+            double aux2 = c.X * b.Y + c.Y * a.X + b.X * a.Y;
+
+            double rezultat = aux1 - aux2;
+            return rezultat;
         }
         #endregion
     }
