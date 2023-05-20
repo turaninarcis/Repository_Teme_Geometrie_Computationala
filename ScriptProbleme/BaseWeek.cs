@@ -9,7 +9,9 @@ namespace Repository_Teme_Geometrie_Computationala
     {
         internal MainWindow mainWindow;
         public List<RoutedEventHandler> ProblemMethodsList;
-        internal static MouseButtonEventHandler mouseEventHandler;
+        internal static MouseButtonEventHandler leftMouseEventHandler;
+        internal static MouseButtonEventHandler rightMouseEventHandler;
+
         internal Helper helper;
         internal static int marimePen = 5;
         internal Pen commonPointPen = new Pen(Brushes.Black, marimePen);
@@ -26,25 +28,26 @@ namespace Repository_Teme_Geometrie_Computationala
 
         public void ResetHelper(object obj, RoutedEventArgs e)
         {
-            helper = new Helper(this);
-            try
-            {
-                mainWindow.canvas.MouseLeftButtonDown -=mouseEventHandler;
-            }
-            catch (System.Exception)
-            {
-            }
-
-            mainWindow.canvas.Children.Clear();
+            ResetHelper();
         }
         public void ResetHelper()
         {
             helper = new Helper(this);
-            Mouse.OverrideCursor = null; ;
+            ResetMouseClicks();
             mainWindow.canvas.Children.Clear();
         }
 
-
+        public void ResetMouseClicks()
+        {
+            try
+            {
+                mainWindow.canvas.MouseLeftButtonDown -= leftMouseEventHandler;
+                mainWindow.canvas.MouseRightButtonDown -= rightMouseEventHandler;
+            }
+            catch (System.Exception)
+            {
+            }
+        }
 
     }
 }

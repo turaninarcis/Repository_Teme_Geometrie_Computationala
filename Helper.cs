@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -17,11 +18,13 @@ namespace Repository_Teme_Geometrie_Computationala
         BaseWeek baseWeek;
         int indexPunct = 0;
         Point[] puncte;
+        List<Point> pointList;
         #endregion
 
         public Helper(BaseWeek baseWeek)
         {
             this.baseWeek = baseWeek;
+            pointList= new List<Point>();
             timer.Interval = TimeSpan.FromMilliseconds(70);
             timer.Tick += timer_Tick;
         }
@@ -343,6 +346,32 @@ namespace Repository_Teme_Geometrie_Computationala
 
             baseWeek.mainWindow.canvas.Children.Add(ellipse);
         }
+
+
+
+
+        public void AssignPointList(List<Point> pointList)
+        {
+            this.pointList= pointList;
+        }
+
+        public void CreatePointOnClick(object sender, MouseButtonEventArgs e)
+        {
+            var position = Mouse.GetPosition(baseWeek.mainWindow.canvas);
+            Point point = new Point((int)position.X, (int)position.Y);
+            pointList.Add(point);
+            DesenarePunctPeFormular(point, new Pen(Brushes.Black, 4));
+            if (pointList.Count >= 2)
+            {
+                DesenareLinie(pointList[pointList.Count - 2], pointList[pointList.Count - 1], new Pen(Brushes.Black, 2));
+            }
+        }
+
+        public void CreateLineBetweenLastPoints(object sender, MouseButtonEventArgs e)
+        {
+            if(pointList.Count>=3)DesenareLinie(pointList[0], pointList[pointList.Count - 1], new Pen(Brushes.Black, 2));
+        }
+
         #endregion
 
         #region Structuri_Custom
