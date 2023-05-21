@@ -3,6 +3,4 @@ Se dă o mulțime de puncte în plan. Să se determine învelitoarea convexă a 
 Soluție (o metodă, la alegere, dintre):
 1. Algoritmul lui Jarvis.
 2. Algoritmul de scanare Graham.
-#
-Aici am rezolvat prin algoritmul lui Jarvis in forma rescrisa.
 *

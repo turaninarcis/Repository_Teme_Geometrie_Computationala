@@ -62,13 +62,9 @@ namespace Repository_Teme_Geometrie_Computationala
                 problems = new Problem[int.Parse(sr.ReadLine())];
                 while ((buffer = sr.ReadLine()) != null)
                 {
-                    if (buffer == "#")
+                    if (buffer == "*")
                     {
-                        indexText++;
-                    }
-                    else if (buffer == "*")
-                    {
-                        problems[indexProblem] = new Problem(bufferText[0], bufferText[1]);
+                        problems[indexProblem] = new Problem(bufferText[0]);
                         bufferText[0] = "";
                         bufferText[1] = "";
                         indexText = 0;

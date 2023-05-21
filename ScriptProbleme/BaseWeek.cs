@@ -9,8 +9,8 @@ namespace Repository_Teme_Geometrie_Computationala
     {
         internal MainWindow mainWindow;
         public List<RoutedEventHandler> ProblemMethodsList;
-        internal static MouseButtonEventHandler leftMouseEventHandler;
-        internal static MouseButtonEventHandler rightMouseEventHandler;
+        public static MouseButtonEventHandler leftMouseEventHandler;
+        public static MouseButtonEventHandler rightMouseEventHandler;
 
         internal Helper helper;
         internal static int marimePen = 5;

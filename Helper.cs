@@ -19,12 +19,16 @@ namespace Repository_Teme_Geometrie_Computationala
         int indexPunct = 0;
         Point[] puncte;
         List<Point> pointList;
+        List<Segment> segmentList;
+        List<Segment> temporarSegmentList;
         #endregion
 
         public Helper(BaseWeek baseWeek)
         {
             this.baseWeek = baseWeek;
             pointList= new List<Point>();
+            segmentList = new List<Segment>();
+            temporarSegmentList = new List<Segment>();
             timer.Interval = TimeSpan.FromMilliseconds(70);
             timer.Tick += timer_Tick;
         }
@@ -359,21 +363,145 @@ namespace Repository_Teme_Geometrie_Computationala
             this.pointList= pointList;
         }
 
-        public void CreatePointOnClick(object sender, MouseButtonEventArgs e)
+        public void CreatePoligonConvexOnClick(object sender, MouseButtonEventArgs e)
         {
             var position = Mouse.GetPosition(baseWeek.mainWindow.canvas);
             Point point = new Point((int)position.X, (int)position.Y);
             pointList.Add(point);
-            DesenarePunctPeFormular(point, new Pen(Brushes.Black, 4));
+            temporarSegmentList.Clear();
+            for(int i = 0;i < pointList.Count - 1; i++)
+            {
+                temporarSegmentList.Add(new Segment(pointList[i], point));
+            }
+            CreatePoligonConvex();
+        }
+
+        private void CreatePoligonConvex()
+        {
+            baseWeek.mainWindow.canvas.Children.Clear();
+            if(pointList.Count <=3)
+            {
+                for(int i = 0;i<temporarSegmentList.Count;i++) 
+                {
+                    segmentList.Add(temporarSegmentList[i]);
+                }
+                RedesenareFormular(this.pointList,this.segmentList);
+                return;
+            }
+            List<Segment> toAdd = new List<Segment>();
+            List<Segment> toRemove = new List<Segment>();
+            for(int i = 0;i<temporarSegmentList.Count;i++) 
+            {
+                bool ok = true;
+                for (int j = 0; j < segmentList.Count; j++)
+                {
+                    if (Helper.IsIntersection(segmentList[j], temporarSegmentList[i]))
+                    {
+                        ok = false;
+                        toRemove.Add(segmentList[j]);
+                    }
+                }
+                if(ok==true) toAdd.Add(temporarSegmentList[i]);
+            }
+            foreach(Segment segment in toRemove) { segmentList.Remove(segment); }
+            foreach(Segment segment in toAdd) 
+                segmentList.Add(segment);
+            DeleteUnnecesaryPointsPoligonConvex();
+            RedesenareFormular(this.pointList,this.segmentList);
+        }
+
+        public void CreatePoligonOnClick(object sender, MouseButtonEventArgs e)
+        {
+            var position = Mouse.GetPosition(baseWeek.mainWindow.canvas);
+            Point point = new Point((int)position.X, (int)position.Y);
+            pointList.Add(point);
+            DesenarePunctPeFormular(point, new Pen(Brushes.Black, 7));
             if (pointList.Count >= 2)
             {
-                DesenareLinie(pointList[pointList.Count - 2], pointList[pointList.Count - 1], new Pen(Brushes.Black, 2));
+                DesenareLinie(pointList[pointList.Count - 2], pointList[pointList.Count - 1], new Pen(Brushes.Red, 2));
             }
         }
 
+
+
+        public void DeleteUnnecesaryPointsPoligonConvex()
+        {
+            List<int> liniiDeCareApartinePunctul = new List<int>();
+            int nrAux;
+            for (int i = 0; i < pointList.Count; i++)
+            {
+                nrAux = 0;
+                for (int j = 0; j < segmentList.Count; j++)
+                {
+                    if (segmentList[j].isContained(pointList[i]) == true) { nrAux++; }
+                }
+                liniiDeCareApartinePunctul.Add(nrAux);
+            }
+            for(int i = 0; i < liniiDeCareApartinePunctul.Count;i++)
+            {
+                if (liniiDeCareApartinePunctul[i] == 1)
+                {
+                    for (int j = 0; j < segmentList.Count; j++)
+                    {
+                        if (segmentList[j].isContained(pointList[i]) == true) { segmentList.Remove(segmentList[j]); liniiDeCareApartinePunctul[i]--; }
+                    }
+                }
+                if (liniiDeCareApartinePunctul[i]==0)
+                {
+                    pointList.Remove(pointList[i]);
+                    liniiDeCareApartinePunctul.RemoveAt(i);
+                }
+            }
+            
+
+        }
+        public void DesenareSegmentePeFormular(List<Segment> segmentList)
+        {
+            foreach(Segment segment in segmentList) { DesenareLinie(segment.a, segment.b, new Pen(Brushes.Red, 2)); }
+        }
+        public void RedesenareFormular(List<Point> pointList,List<Segment> segmentList)
+        {
+            baseWeek.mainWindow.canvas.Children.Clear();
+            foreach (Point p in pointList)
+            { DesenarePunctPeFormular(p, new Pen(Brushes.Black, 7)); }
+            foreach (Segment segment in segmentList)
+            {
+                DesenareLinie(segment.a, segment.b, new Pen(Brushes.Red, 2));
+            }
+        }
+
+        public void TriangularePuncteDinLista(List<Point> pointList)
+        {
+            List<Helper.Segment> segmentList = new List<Helper.Segment>();
+            for (int i = 0; i < pointList.Count - 1; i++)
+            {
+                for (int j = i + 1; j < pointList.Count; j++)
+                {
+                    segmentList.Add(new Helper.Segment(pointList[i], pointList[j]));
+                }
+            }
+            segmentList.Sort(Helper.SegmentComparer);
+
+            List<Helper.Segment> triangulare = new List<Helper.Segment>();
+            triangulare.Add(segmentList[0]);
+            bool ok;
+            for (int i = 1; i < segmentList.Count; i++)
+            {
+                ok = true;
+                for (int j = 0; j < triangulare.Count; j++)
+                {
+                    if (Helper.IsIntersection(segmentList[i], triangulare[j])) ok = false;
+                }
+                if (ok) { triangulare.Add(segmentList[i]); }
+            }
+            for (int i = 0; i < triangulare.Count; i++)
+            {
+                DesenareLinie(triangulare[i].a, triangulare[i].b, new Pen(Brushes.Red, 3));
+            }
+        }
         public void CreateLineBetweenLastPoints(object sender, MouseButtonEventArgs e)
         {
-            if(pointList.Count>=3)DesenareLinie(pointList[0], pointList[pointList.Count - 1], new Pen(Brushes.Black, 2));
+            if(pointList.Count>=3)DesenareLinie(pointList[0], pointList[pointList.Count - 1], new Pen(Brushes.Red, 2));
         }
 
         public void TriangularePoligonConvex(object obj, MouseButtonEventArgs e)
@@ -381,7 +509,7 @@ namespace Repository_Teme_Geometrie_Computationala
             CreateLineBetweenLastPoints(obj, e);
             for(int i = 1;i<= pointList.Count-1;i++)
             {
-                DesenareLinie(pointList[0], pointList[i], new Pen(Brushes.Black, 2));
+                DesenareLinie(pointList[0], pointList[i], new Pen(Brushes.Red, 2));
             }
         }
 
@@ -445,6 +573,15 @@ namespace Repository_Teme_Geometrie_Computationala
         }
 
 
+        public void HandlePointOnClick(List<Point> pointList)
+        {
+            pointList.Clear();
+            AssignPointList(pointList);
+            baseWeek.ResetMouseClicks();
+            BaseWeek.leftMouseEventHandler = CreatePoligonConvexOnClick;
+            baseWeek.mainWindow.canvas.MouseLeftButtonDown += BaseWeek.leftMouseEventHandler;
+        }
+
         public struct Segment
         {
             public Point a;
@@ -455,6 +592,16 @@ namespace Repository_Teme_Geometrie_Computationala
                 this.a = a;
                 this.b = b;
                 lungime = Helper.DistantaIntreDouaPuncte(a, b);
+            }
+            public bool HasACommonPoint(Segment that)
+            {
+                if(this.a == that.a||this.a==that.b||this.b==that.b) return true;
+                return false;
+            }
+            public bool isContained(Point p)
+            {
+                if(p == a || p == b) return true;
+                return false;
             }
         }
 

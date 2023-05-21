@@ -1,5 +1,4 @@
-﻿using Repository_Teme_Geometrie_Computationala.Comparers;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
@@ -16,26 +15,28 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
         public void AssignProblem2(object obj, RoutedEventArgs e)
         {
-            Exercitiu_2(4);
+            Exercitiu_2(30);
 
         }
         public void Exercitiu_2(int nrLinii)
         {
-            Helper.SegmentPointEvent[] segmente = new Helper.SegmentPointEvent[nrLinii];
+            List<Helper.SegmentPointEvent> segmente = new List<Helper.SegmentPointEvent>();
             for(int i = 0;i<nrLinii;i++)
             {
                 Helper.PointEvent a = new Helper.PointEvent(helper.GenerarePunctAleatoriu());
                 Helper.PointEvent b = new Helper.PointEvent(helper.GenerarePunctAleatoriu());
 
-                segmente[i] = new Helper.SegmentPointEvent(a,b);
+                segmente.Add(new Helper.SegmentPointEvent(a,b));
                 helper.DesenareLinie(segmente[i].a.point, segmente[i].b.point, new Pen(Brushes.Black, 3));
-            }
-            EventPointComparer comparer = new EventPointComparer();
-
-            SortedList<Helper.SegmentPointEvent, Comparer> sortedList = new SortedList<Helper.SegmentPointEvent, Comparer>();
-            
-
-            
-        }              
+            }            
+        }         
+        
+        public int PointComparer(Helper.PointEvent a, Helper.PointEvent b)
+        {
+            if (a.point.Y < b.point.Y)
+                return 1;
+            else if (a.point.Y == b.point.Y && a.point.X < b.point.X) return 1;
+            return -1;
+        }
     }
 }

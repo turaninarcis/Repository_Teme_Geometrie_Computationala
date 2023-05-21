@@ -1,13 +1,7 @@
 ﻿3
 Se dau n puncte în plan și o constantă d>0. Să se determine toate punctele care sunt la o distanță mai mică sau egală cu d față de un punct fixat q.
-#
-BlaBLa
 *
 Se dă o mulțime de puncte în plan. Să se determine triunghiul de arie minimă ale cărui vârfuri să facă parte din mulțimea dată. (Opțional: soluție optimizată bazată pe sortarea punctelor în raport cu relația de ordine: (x1, y1) < (x2, y2) d.n.d. x1 * y2 < x2 * y1 și testarea punctelor adiacente din șirul ordonat.)
-#
-BlaBla
 *
 Se dă o mulțime de puncte în plan. Să se determine cercul de rază minimă care să conțină toate punctele date în interior. (Minimal enclosing circle)
-#
-Pentru rezolvarea acestei probleme m-am folosit de algoritmul lui Welzl.
 *

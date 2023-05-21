@@ -11,15 +11,13 @@ namespace Repository_Teme_Geometrie_Computationala
     {
         
         string problemDescription;
-        string problemSolvingDescription;
-        public Problem(string problemDescription,string problemSolvingDescription)
+        public Problem(string problemDescription)
         {
             this.problemDescription = problemDescription;
-            this.problemSolvingDescription = problemSolvingDescription;
         }
         public string ToString()
         {
-            return problemDescription + "\r\n" + problemSolvingDescription;
+            return problemDescription;
         }
 
     }

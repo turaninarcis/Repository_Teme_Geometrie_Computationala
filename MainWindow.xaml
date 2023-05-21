@@ -10,8 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70*" MinHeight="200"
                            x:Name="Row0"/>
-            <RowDefinition Height="6" />
-            <RowDefinition Height="30*" MinHeight="100"/>   
+            <RowDefinition Height="100"/>   
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*"
