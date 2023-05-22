@@ -22,7 +22,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
         public void AssignProblem1(object obj, RoutedEventArgs e)
         {
-            int nrPuncte = 24;
+            int nrPuncte = 203;
             pointList.Clear();
             for(int i = 0;i<nrPuncte;i++)
             {

@@ -44,13 +44,13 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             CreazaLaturiDinPuncte();
             Helper.Segment segment;
 
-            for(int i = 1;i<=points.Count-3;i++) 
+            for(int i = 0;i<=points.Count-3;i++) 
             {
-                for(int j = i+2;j<=points.Count-1;j++) 
+                for(int j = i+2;j<=points.Count-2;j++) 
                 {
                     //if(i==1&&j==points.Count-1) { continue; }
                     segment = new Helper.Segment(points[i], points[j]);
-                    if (!IntersecteazaOricareLatura(segment) && !IntersecteazaOricareDiagonala(segment) && SeAflaInInterior(i, j))
+                    if (!IntersecteazaOricareLatura(segment) && !IntersecteazaOricareDiagonala(segment) && SeAflaInInterior(j, i))
                         diagonale.Add(segment);
                     if (diagonale.Count == points.Count - 3)
                     {
@@ -72,12 +72,12 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
             if (Varf == Helper.Directie.Dreapta)
             {
-                if ((primaDirectie == aDouaDirectie && primaDirectie == Helper.Directie.Stanga))
+                if ((primaDirectie ==Helper.Directie.Stanga && primaDirectie == Helper.Directie.Stanga))
                     return true;
             }
             else if (Varf == Helper.Directie.Stanga)
             {
-                if (primaDirectie == aDouaDirectie && aDouaDirectie == Helper.Directie.Dreapta)
+                if (primaDirectie == Helper.Directie.Dreapta && aDouaDirectie == Helper.Directie.Dreapta)
                     return false;
             }
             return true;

@@ -25,7 +25,7 @@ namespace Repository_Teme_Geometrie_Computationala
         {
             InitializeComponent();
             InitWeekProblems();
-            GenerateButtons(14);
+            GenerateButtons(11);
         }
         List<BaseWeek> weeks = new List<BaseWeek>();
 
@@ -49,10 +49,6 @@ namespace Repository_Teme_Geometrie_Computationala
             weeks.Add(new Week5(this));
             weeks.Add(new Week6(this));
             weeks.Add(new Week7(this));
-            weeks.Add(new Week1(this));
-            weeks.Add(new Week1(this));
-            weeks.Add(new Week1(this));
-            weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
