@@ -15,11 +15,12 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         public Week7(MainWindow mainWindow) : base(mainWindow) 
         {
             ProblemMethodsList.Add(Problema1);
+            points = new List<Point>();
+
         }
 
         public void Problema1(object obj, RoutedEventArgs e)
         {
-            points = new List<Point>();
             HandlePointOnClick(points);            
         }
 
@@ -27,6 +28,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         public void HandlePointOnClick(List<Point> pointList)
         {
             pointList.Clear();
+            diagonale.Clear();
             helper.AssignPointList(pointList);
             ResetMouseClicks();
             leftMouseEventHandler = helper.CreatePoligonOnClick;
@@ -35,28 +37,21 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             mainWindow.canvas.MouseRightButtonDown+= rightMouseEventHandler;
         }
 
+            List<Helper.Segment> diagonale = new List<Helper.Segment>();
         public void TriangularePoligonSimpluOnClick(object sender, MouseButtonEventArgs e)
         {
             helper.CreateLineBetweenLastPoints(sender, e);
             CreazaLaturiDinPuncte();
-            bool ok;
-            List<Helper.Segment> diagonale = new List<Helper.Segment>();
-            for(int i = 0;i<=points.Count-3;i++) 
+            Helper.Segment segment;
+
+            for(int i = 1;i<=points.Count-3;i++) 
             {
-                ok = true;
                 for(int j = i+2;j<=points.Count-1;j++) 
                 {
-                    //if(i==0&&j==points.Count-1) { break; }
-                    for(int k = 0;k < laturiPoligon.Count;k++)
-                    {
-                        if (Helper.IsIntersection(new Helper.Segment(points[i], points[j]), laturiPoligon[k]))
-                        { ok = false;}
-                    }
-                    for(int k = 0;k<diagonale.Count;k++)
-                    {
-                        if (Helper.IsIntersection(new Helper.Segment(points[i], points[j]), diagonale[k])) { ok = false; }
-                    }
-                    if (ok) diagonale.Add(new Helper.Segment(points[i], points[j]));
+                    //if(i==1&&j==points.Count-1) { continue; }
+                    segment = new Helper.Segment(points[i], points[j]);
+                    if (!IntersecteazaOricareLatura(segment) && !IntersecteazaOricareDiagonala(segment) && SeAflaInInterior(i, j))
+                        diagonale.Add(segment);
                     if (diagonale.Count == points.Count - 3)
                     {
                         helper.DesenareSegmentePeFormular(diagonale);
@@ -66,7 +61,44 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             }
         }
 
+        private bool SeAflaInInterior(int i, int j)
+        {
+            Helper.Directie Varf;
+            Helper.Directie primaDirectie;
+            Helper.Directie aDouaDirectie;
+            Varf = Helper.GetDirection(points[i - 1], points[i], points[i + 1]);
+            primaDirectie = Helper.GetDirection(points[i], points[j], points[i + 1]);
+            aDouaDirectie = Helper.GetDirection(points[i], points[i - 1], points[j]);
 
+            if (Varf == Helper.Directie.Dreapta)
+            {
+                if ((primaDirectie == aDouaDirectie && primaDirectie == Helper.Directie.Stanga))
+                    return true;
+            }
+            else if (Varf == Helper.Directie.Stanga)
+            {
+                if (primaDirectie == aDouaDirectie && aDouaDirectie == Helper.Directie.Dreapta)
+                    return false;
+            }
+            return true;
+        }
+        private bool IntersecteazaOricareLatura(Helper.Segment segment)
+        {
+            for (int k = 0; k < laturiPoligon.Count; k++)
+            {
+                if (Helper.IsIntersection(segment, laturiPoligon[k]))
+                { return true ; }
+            }
+            return false;
+        }
+        private bool IntersecteazaOricareDiagonala(Helper.Segment segment)
+        {
+            for (int k = 0; k < diagonale.Count; k++)
+            {
+                if (Helper.IsIntersection(segment, diagonale[k])) { return true; }
+            }
+            return false;
+        }
         public void CreazaLaturiDinPuncte()
         {
             laturiPoligon = new List<Helper.Segment>();
