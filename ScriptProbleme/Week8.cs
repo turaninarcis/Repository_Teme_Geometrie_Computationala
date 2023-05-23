@@ -56,18 +56,19 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             helper.CreateLineBetweenLastPoints(sender, e);
             laturiPoligon = Helper.CreazaLaturiDinPuncte(points);
             Helper.Segment segment;
-            int n = points.Count;
-            while(n>3)
+            int n = points.Count-1;
+            while(n>=3)
             {
-                for (int i = 0; i < n; i++)
+                for (int i = 1; i <n; i++)
                 {
-                    int j = (i + 2) % n;
-                    if (j == 0) continue;
-                    segment = new Helper.Segment(points[i], points[j]);
-                    if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points,j,i))
+                    int excessOne = (i + 1)%(n+1);
+                    int excessTwo = (i+2)%(n+1);
+                    segment = new Helper.Segment(points[i], points[excessTwo]);
+
+                    if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points,i,excessTwo,n))
                     {
                         diagonale.Add(segment);
-                        //helper.DesenareLinie(segment.a, segment.b, new Pen(Brushes.Red, 2));
+
                         points.RemoveAt(i+1);
                         n--;
                         break;
@@ -88,19 +89,21 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         }
 
 
-        public static bool SeAflaInInterior(List<Point> points, int i, int j)
+        public static bool SeAflaInInterior(List<Point> points, int i, int j,int n)
         {
             Directie Varf;
             Directie primaDirectie;
             Directie aDouaDirectie;
-            Varf = GetDirection(points[i - 1], points[i], points[(i + 1)%points.Count]);
-            primaDirectie = GetDirection(points[i], points[j], points[(i + 1)%points.Count]);
-            aDouaDirectie = GetDirection(points[i], points[i - 1], points[j]);
+            int pointPlusUnu = (i + 1) % (n + 1);
+            Varf = GetDirection(points[i - 1], points[i], points[pointPlusUnu]);
+            primaDirectie = GetDirection(points[i], points[j], points[pointPlusUnu]);
+            aDouaDirectie = GetDirection(points[i], points[i-1], points[j]);
 
             if (Varf == Directie.Dreapta)
             {
-                if ((primaDirectie == Directie.Stanga && primaDirectie == Directie.Stanga))
+                if ((primaDirectie == Directie.Stanga && aDouaDirectie == Directie.Stanga))
                     return true;
+                else return false;
             }
             else if (Varf == Directie.Stanga)
             {

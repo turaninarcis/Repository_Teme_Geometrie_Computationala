@@ -167,8 +167,9 @@ namespace Repository_Teme_Geometrie_Computationala
 
             if (Varf == Directie.Dreapta)
             {
-                if ((primaDirectie == Directie.Stanga && primaDirectie == Directie.Stanga))
+                if ((primaDirectie == Directie.Stanga && aDouaDirectie == Directie.Stanga))
                     return true;
+                else return false;
             }
             else if (Varf == Directie.Stanga)
             {
