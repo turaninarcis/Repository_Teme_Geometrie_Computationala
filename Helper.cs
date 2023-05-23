@@ -154,6 +154,63 @@ namespace Repository_Teme_Geometrie_Computationala
             b = temp;    
         }
 
+
+
+        public static bool SeAflaInInterior(List<Point> points, int i, int j)
+        {
+            Directie Varf;
+            Directie primaDirectie;
+            Directie aDouaDirectie;
+            Varf = GetDirection(points[i - 1], points[i], points[i + 1]);
+            primaDirectie = GetDirection(points[i], points[j], points[i + 1]);
+            aDouaDirectie = GetDirection(points[i], points[i - 1], points[j]);
+
+            if (Varf == Directie.Dreapta)
+            {
+                if ((primaDirectie == Directie.Stanga && primaDirectie == Directie.Stanga))
+                    return true;
+            }
+            else if (Varf == Directie.Stanga)
+            {
+                if (primaDirectie == Directie.Dreapta && aDouaDirectie == Directie.Dreapta)
+                    return false;
+            }
+            return true;
+        }
+        public static bool IntersecteazaOricareLatura(Segment segment, List<Segment> laturiPoligon)
+        {
+            for (int k = 0; k < laturiPoligon.Count; k++)
+            {
+                if (IsIntersection(segment, laturiPoligon[k]))
+                { return true; }
+            }
+            return false;
+        }
+        public static bool IntersecteazaOricareDiagonala(Segment segment, List<Segment> diagonale)
+        {
+            for (int k = 0; k < diagonale.Count; k++)
+            {
+                if (IsIntersection(segment, diagonale[k])) { return true; }
+            }
+            return false;
+        }
+        public static List<Segment> CreazaLaturiDinPuncte(List<Point> points)
+        {
+            List<Segment>laturiPoligon = new List<Segment>();
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                laturiPoligon.Add(new Segment(points[i], points[i + 1]));
+            }
+            laturiPoligon.Add(new Segment(points[points.Count - 1], points[0]));
+            return laturiPoligon;
+        }
+
+
+
+
+
+
+
         #region MinimumEnclosingCircle
         private static PointCustom[] TransformPointsToHelperPoints(Point[] points)
         {

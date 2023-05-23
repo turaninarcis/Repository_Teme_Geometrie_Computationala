@@ -41,7 +41,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         public void TriangularePoligonSimpluOnClick(object sender, MouseButtonEventArgs e)
         {
             helper.CreateLineBetweenLastPoints(sender, e);
-            CreazaLaturiDinPuncte();
+            laturiPoligon = Helper.CreazaLaturiDinPuncte(points);
             Helper.Segment segment;
 
             for(int i = 0;i<=points.Count-3;i++) 
@@ -50,7 +50,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                 {
                     //if(i==1&&j==points.Count-1) { continue; }
                     segment = new Helper.Segment(points[i], points[j]);
-                    if (!IntersecteazaOricareLatura(segment) && !IntersecteazaOricareDiagonala(segment) && SeAflaInInterior(j, i))
+                    if (!Helper.IntersecteazaOricareLatura(segment,laturiPoligon) && !Helper.IntersecteazaOricareDiagonala(segment,diagonale) && Helper.SeAflaInInterior(points,j, i))
                         diagonale.Add(segment);
                     if (diagonale.Count == points.Count - 3)
                     {
@@ -61,52 +61,6 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             }
         }
 
-        private bool SeAflaInInterior(int i, int j)
-        {
-            Helper.Directie Varf;
-            Helper.Directie primaDirectie;
-            Helper.Directie aDouaDirectie;
-            Varf = Helper.GetDirection(points[i - 1], points[i], points[i + 1]);
-            primaDirectie = Helper.GetDirection(points[i], points[j], points[i + 1]);
-            aDouaDirectie = Helper.GetDirection(points[i], points[i - 1], points[j]);
 
-            if (Varf == Helper.Directie.Dreapta)
-            {
-                if ((primaDirectie ==Helper.Directie.Stanga && primaDirectie == Helper.Directie.Stanga))
-                    return true;
-            }
-            else if (Varf == Helper.Directie.Stanga)
-            {
-                if (primaDirectie == Helper.Directie.Dreapta && aDouaDirectie == Helper.Directie.Dreapta)
-                    return false;
-            }
-            return true;
-        }
-        private bool IntersecteazaOricareLatura(Helper.Segment segment)
-        {
-            for (int k = 0; k < laturiPoligon.Count; k++)
-            {
-                if (Helper.IsIntersection(segment, laturiPoligon[k]))
-                { return true ; }
-            }
-            return false;
-        }
-        private bool IntersecteazaOricareDiagonala(Helper.Segment segment)
-        {
-            for (int k = 0; k < diagonale.Count; k++)
-            {
-                if (Helper.IsIntersection(segment, diagonale[k])) { return true; }
-            }
-            return false;
-        }
-        public void CreazaLaturiDinPuncte()
-        {
-            laturiPoligon = new List<Helper.Segment>();
-            for(int i = 0;i<points.Count-1;i++)
-            {
-                laturiPoligon.Add(new Helper.Segment(points[i], points[i + 1]));
-            }
-            laturiPoligon.Add(new Helper.Segment(points[points.Count - 1], points[0]));
-        }
     }
 }
