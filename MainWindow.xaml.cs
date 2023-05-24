@@ -50,7 +50,7 @@ namespace Repository_Teme_Geometrie_Computationala
             weeks.Add(new Week6(this));
             weeks.Add(new Week7(this));
             weeks.Add(new Week8(this));
-            weeks.Add(new Week1(this));
+            weeks.Add(new Week9(this));
             weeks.Add(new Week1(this));
             weeks.Add(new Week1(this));
         }

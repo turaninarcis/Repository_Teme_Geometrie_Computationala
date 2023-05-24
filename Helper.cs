@@ -120,7 +120,7 @@ namespace Repository_Teme_Geometrie_Computationala
             double perimetru = (a + b + c);
             return perimetru;
         }
-        public static void SortarePuncte(Point[] puncte)
+        public static void SortarePuncteX(Point[] puncte)
         {
             bool ok = true;
             Point aux;
@@ -146,6 +146,59 @@ namespace Repository_Teme_Geometrie_Computationala
                 }
             } while (ok == false);
         }
+        public static void SortarePuncteX(List<Point> puncte)
+        {
+            bool ok = true;
+            Point aux;
+            do
+            {
+                ok = true;
+                for (int i = 0; i < puncte.Count - 1; i++)
+                {
+                    if (puncte[i].X > puncte[i + 1].X)
+                    {
+                        ok = false;
+                        aux = puncte[i];
+                        puncte[i] = puncte[i + 1];
+                        puncte[i + 1] = aux;
+                    }
+                    else if (puncte[i].X == puncte[i + 1].X && puncte[i].Y < puncte[i + 1].Y)
+                    {
+                        ok = false;
+                        aux = puncte[i];
+                        puncte[i] = puncte[i + 1];
+                        puncte[i + 1] = aux;
+                    }
+                }
+            } while (ok == false);
+        }
+        public static void SortarePuncteY(List<Point> puncte)
+        {
+            bool ok = true;
+            Point aux;
+            do
+            {
+                ok = true;
+                for (int i = 0; i < puncte.Count - 1; i++)
+                {
+                    if (puncte[i].Y > puncte[i + 1].Y)
+                    {
+                        ok = false;
+                        aux = puncte[i];
+                        puncte[i] = puncte[i + 1];
+                        puncte[i + 1] = aux;
+                    }
+                    else if (puncte[i].Y == puncte[i + 1].Y && puncte[i].X > puncte[i + 1].X)
+                    {
+                        ok = false;
+                        aux = puncte[i];
+                        puncte[i] = puncte[i + 1];
+                        puncte[i + 1] = aux;
+                    }
+                }
+            } while (ok == false);
+        }
+
 
         public static void Swap<T>(ref T a, ref T b)
         {

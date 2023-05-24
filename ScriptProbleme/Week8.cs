@@ -19,6 +19,8 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
     {
         List<Point> points;
         List<Helper.Segment> laturiPoligon;
+        List<Helper.Segment> diagonale = new List<Helper.Segment>();
+
         List<TriColoringPoint> triColors = new List<TriColoringPoint>();
         DispatcherTimer timer = new DispatcherTimer();
         List<TriColoringTriangle> triColoringTriangles = new List<TriColoringTriangle>();
@@ -30,8 +32,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         {
             ProblemMethodsList.Add(Problema1);
             points = new List<Point>();
-            timer.Interval = TimeSpan.FromMilliseconds(50);
-            timer.Tick += timer_Tick;
+
 
         }
 
@@ -57,26 +58,27 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
 
 
-        List<Helper.Segment> diagonale = new List<Helper.Segment>();
         public void TriangularePoligonOtectomieOnClick(object sender, MouseButtonEventArgs e)
         {
-            TextBox textBox = new TextBox();
             triColors.Clear();
-            textBox.Text = CalculeazaAria(points).ToString();
-            Canvas.SetTop(textBox, 0);
-            Canvas.SetLeft(textBox, 0);
-            mainWindow.canvas.Children.Add(textBox);
-            indexTimer = 0;
+            SetareTextBoxArie();
             helper.CreateLineBetweenLastPoints(sender, e);
-            TransformPointsToTricoloringPoints();
-            triColors[1].SetColor(red);
-            triColors[1].RGB.Clear();
-            triColors[1].RGB.Add(red);
-            helper.DesenarePunctPeFormular(triColors[1].p, new Pen(new SolidColorBrush(triColors[1].color), 10));
-            triColors[2].SetColor(green);
-            triColors[2].RGB.Clear();
-            triColors[2].RGB.Add(green);
-            helper.DesenarePunctPeFormular(triColors[2].p, new Pen(new SolidColorBrush(triColors[2].color), 10));
+            SetarePuncteTricolorare();
+            Triangulare();
+            Tricolorare();
+            PlayAnimation();
+        }
+
+        private void PlayAnimation()
+        {
+            timer.Interval = TimeSpan.FromMilliseconds(50);
+            timer.Tick += timer_Tick;
+            indexTimer = 0;
+            timer.Start();
+        }
+
+        private void Triangulare()
+        {
             laturiPoligon = Helper.CreazaLaturiDinPuncte(points);
             Helper.Segment segment;
             int n = points.Count - 1;
@@ -101,6 +103,10 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                 }
 
             }
+        }
+
+        private void Tricolorare()
+        {
             triColoringTriangles.Add(new TriColoringTriangle(triColors[0], triColors[1], triColors[2]));
             bool ok;
             do
@@ -118,9 +124,30 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                 }
 
             } while (ok == false);
-
-            timer.Start();
         }
+
+        private void SetarePuncteTricolorare()
+        {
+            TransformPointsToTricoloringPoints();
+            triColors[1].SetColor(red);
+            triColors[1].RGB.Clear();
+            triColors[1].RGB.Add(red);
+            helper.DesenarePunctPeFormular(triColors[1].p, new Pen(new SolidColorBrush(triColors[1].color), 10));
+            triColors[2].SetColor(green);
+            triColors[2].RGB.Clear();
+            triColors[2].RGB.Add(green);
+            helper.DesenarePunctPeFormular(triColors[2].p, new Pen(new SolidColorBrush(triColors[2].color), 10));
+        }
+
+        private void SetareTextBoxArie()
+        {
+            TextBox textBox = new TextBox();
+            textBox.Text = CalculeazaAria(points).ToString();
+            Canvas.SetTop(textBox, 0);
+            Canvas.SetLeft(textBox, 0);
+            mainWindow.canvas.Children.Add(textBox);
+        }
+
         void timer_Tick(object sender, EventArgs e)
         {
             if (indexTimer < diagonale.Count)

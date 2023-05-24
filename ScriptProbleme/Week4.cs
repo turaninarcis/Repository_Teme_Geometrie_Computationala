@@ -17,7 +17,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             int padding = 30;
             Point[] puncte = helper.GenerarePuncteAleatoriiConstrained(100, padding, (int)mainWindow.canvas.ActualWidth - padding, padding, (int)mainWindow.canvas.ActualHeight - padding);
             helper.DesenarePunctePeFormular(puncte,new Pen(Brushes.Black,4));
-            Helper.SortarePuncte(puncte);
+            Helper.SortarePuncteX(puncte);
             Point[] invelitoare = GetPerimeter(puncte);
             helper.DesenarePunctPeFormular(invelitoare[0], new Pen(Brushes.Red,4));
             helper.DesenareLiniiIntrePuncte(invelitoare);
