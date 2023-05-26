@@ -74,6 +74,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                             ok = true;
                             if(index-1<0)index = points.Count-1;
                             segment = new Segment(points[iNormalised], sortedPoints[index - 1]);
+                            if (DiagonalaExistaDeja(segment)) { break; }
                             if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index - 1, points.Count))
                             {
                                 diagonale.Add(segment);
@@ -82,15 +83,16 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                         } while (ok == false);
                         
                     }
-                    if (points[i - 1].Y < points[iNormalised].Y && points[excessOne].Y < points[iNormalised].Y)
+                    else if (points[i - 1].Y < points[iNormalised].Y && points[excessOne].Y < points[iNormalised].Y)
                     {
 
                         int index = sortedPoints.IndexOf(points[iNormalised]);
                         do
                         {
                             ok = true;
-                            
                             segment = new Segment(points[iNormalised], sortedPoints[index + 1]);
+                            if (DiagonalaExistaDeja(segment)) { break; }
+
                             if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index + 1, points.Count))
                             {
                                 diagonale.Add(segment);
@@ -104,7 +106,15 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
             PlayAnimation();
         }
-
+        public bool DiagonalaExistaDeja(Segment segment)
+        {
+            for(int i = 0;i<diagonale.Count;i++)
+            {
+                if (diagonale[i].a == segment.a && diagonale[i].b == segment.b || diagonale[i].b == segment.a && diagonale[i].a == segment.b)
+                    return true;
+            }
+            return false;
+        }
         public void CopyPoints()
         {
             sortedPoints.Clear();
