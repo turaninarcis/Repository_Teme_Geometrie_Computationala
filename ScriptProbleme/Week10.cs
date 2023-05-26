@@ -190,7 +190,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                         {
                             if (!Helper.IntersecteazaOricareLatura(segment, poligon.laturiPoligon) &&
                             !Helper.IntersecteazaOricareDiagonala(segment, poligon.diagonale) &&
-                            Helper.SeAflaInInterior(poligon.points, j, poligon.points.IndexOf(stack.Peek())))
+                            SeAflaInInterior(poligon.points, j, poligon.points.IndexOf(stack.Peek()),poligon.points.Count))
                             {
                                 poligon.diagonale.Add(segment);
                                 stack.Pop();
@@ -244,6 +244,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         void timer_Tick(object sender, EventArgs e)
         {
             if (indexTimer < diagonaleCurente.Count)
+            
             {
                 helper.DesenareLinie(diagonaleCurente[indexTimer].a, diagonaleCurente[indexTimer].b, new Pen(Brushes.Red, 2));
                 indexTimer++;
@@ -265,7 +266,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             Directie Varf;
             Directie primaDirectie;
             Directie aDouaDirectie;
-            int pointPlusUnu = (i + 1) % (n + 1);
+            int pointPlusUnu = (i + 1) % (n);
             int pointMinusUnu;
             if (i - 1 < 0)
                 pointMinusUnu = n - 1;
