@@ -28,7 +28,8 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             ProblemMethodsList.Add(Problema1);
             points = new List<Point>();
             sortedPoints = new List<Point>();
-
+            timer.Interval = TimeSpan.FromMilliseconds(50);
+            timer.Tick += timer_Tick;
         }
 
         public void Problema1(object obj, RoutedEventArgs e)
@@ -137,8 +138,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         }
         private void PlayAnimation()
         {
-            timer.Interval = TimeSpan.FromMilliseconds(50);
-            timer.Tick += timer_Tick;
+
             indexTimer = 0;
             timer.Start();
         }
@@ -148,7 +148,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
             Directie Varf;
             Directie primaDirectie;
             Directie aDouaDirectie;
-            int pointPlusUnu = (i + 1) % (n + 1);
+            int pointPlusUnu = (i + 1) % (n);
             int pointMinusUnu; 
             if(i-1<0)
                 pointMinusUnu = n-1;

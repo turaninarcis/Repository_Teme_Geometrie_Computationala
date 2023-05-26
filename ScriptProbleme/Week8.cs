@@ -32,7 +32,8 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         {
             ProblemMethodsList.Add(Problema1);
             points = new List<Point>();
-
+            timer.Interval = TimeSpan.FromMilliseconds(50);
+            timer.Tick += timer_Tick;
 
         }
 
@@ -71,8 +72,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
         private void PlayAnimation()
         {
-            timer.Interval = TimeSpan.FromMilliseconds(50);
-            timer.Tick += timer_Tick;
+
             indexTimer = 0;
             timer.Start();
         }
