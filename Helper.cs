@@ -251,7 +251,7 @@ namespace Repository_Teme_Geometrie_Computationala
         public static List<Segment> CreazaLaturiDinPuncte(List<Point> points)
         {
             List<Segment>laturiPoligon = new List<Segment>();
-            for (int i = 0; i < points.Count - 1; i++)
+            for (int i = 0; i < points.Count-1; i++)
             {
                 laturiPoligon.Add(new Segment(points[i], points[i + 1]));
             }

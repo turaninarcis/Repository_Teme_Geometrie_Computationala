@@ -19,9 +19,13 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         List<Point> sortedPoints;
         List<Helper.Segment> laturiPoligon;
         List<Helper.Segment> diagonale = new List<Helper.Segment>();
+        List<Brush> brushes = new List<Brush>()
+        {
+            Brushes.Blue, Brushes.Green,Brushes.AliceBlue,Brushes.Brown,Brushes.DeepPink,Brushes.Purple,Brushes.DarkGray
+        };
         List<Poligon> poligoane = new List<Poligon>();
         List<Helper.Segment> diagonaleCurente = new List<Helper.Segment>();
-
+        List<List<Segment>> listaDiagonale = new List<List<Segment>>();
         DispatcherTimer timer = new DispatcherTimer();
         int indexTimer = 0;
 
@@ -58,6 +62,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         public void PartitionarePoligon(object sender, MouseButtonEventArgs e)
         {
             diagonale.Clear();
+            listaDiagonale.Clear();
             sortedPoints = GetSortedPoints(points);
             helper.CreateLineBetweenLastPoints(sender, e);
             laturiPoligon = Helper.CreazaLaturiDinPuncte(points);
@@ -78,7 +83,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                             ok = true;
                             if (index - 1 < 0) index = points.Count - 1;
                             segment = new Segment(points[iNormalised], sortedPoints[index - 1]);
-                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index - 1, points.Count))
+                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index - 1, points.Count)&&!DiagonalaExistaDeja(segment, diagonale))
                             {
                                 diagonale.Add(segment);
                             }
@@ -93,9 +98,9 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                         do
                         {
                             ok = true;
-
                             segment = new Segment(points[iNormalised], sortedPoints[index + 1]);
-                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index + 1, points.Count))
+
+                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index + 1, points.Count)&&!DiagonalaExistaDeja(segment, diagonale))
                             {
                                 diagonale.Add(segment);
                             }
@@ -106,7 +111,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
             }
 
-            PlayAnimation(diagonale);
+            listaDiagonale.Add(diagonale);
             List<Point> aux = new List<Point>();
             poligoane.Clear();
             poligoane.Add(new Poligon(points));
@@ -142,7 +147,6 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     }
                 }
             }
-
             TriangulatePoligons();
 
         }
@@ -151,49 +155,57 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         {
             Segment segment = new Segment();
             Stack<Point> stack = new Stack<Point>();
-
+            List<Point> lant1 = new List<Point>();
+            List<Point> lant2 = new List<Point>();
+            Queue<Point> queue = new Queue<Point>();
             foreach (Poligon poligon in poligoane)
             {
                 poligon.SeteazaPerimetruPoligon();
                 List<Point> sortedPoints = GetSortedPoints(poligon.points);
-                List<Point> lant1 = new List<Point>();
-                List<Point> lant2 = new List<Point>();
-                Queue<Point> queue = new Queue<Point>();
+                lant1.Clear();
+                lant2.Clear();
+                queue.Clear();
+                stack.Clear();
                 int indexCapatLant1 = poligon.points.IndexOf(sortedPoints[0]);
                 int indexCapatLant2 = poligon.points.IndexOf(sortedPoints[sortedPoints.Count - 1]);
-                for (int i = indexCapatLant1; i <= indexCapatLant2; i++)
-                    lant1.Add(poligon.points[i]);
-                int lungimeLant2 = poligon.points.Count - lant1.Count + 1;
-                for (int i = 0; i <= lungimeLant2; i++)
-                    lant2.Add(poligon.points[(indexCapatLant2 + i) % poligon.points.Count]);
-                stack.Clear();
+                int max = Math.Max(indexCapatLant1,indexCapatLant2);
+                int min = Math.Min(indexCapatLant1, indexCapatLant2);
+                foreach (Point p in poligon.points)
+                    lant1.Add(p);
+                for (int i = min; i <= max; i++)
+                    lant2.Add(poligon.points[i]);
+                foreach (Point p in lant2)
+                    lant1.Remove(p);
                 stack.Push(poligon.points[0]);
                 stack.Push(poligon.points[1]);
 
                 for (int j = 2; j < poligon.points.Count - 1; j++)
                 {
-                    if (lant1.Contains(poligon.points[j]) && lant2.Contains(stack.Peek()))
+                    if (lant1.Contains(poligon.points[j]) && lant2.Contains(stack.Peek())|| lant2.Contains(poligon.points[j]) && lant1.Contains(stack.Peek()))
                     {
-                        while (stack.Count > 1)
+                        stack.Pop();
+                        while (stack.Count >=1)
                         {
-                            poligon.diagonale.Add(new Segment(poligon.points[j], stack.Pop()));
+
+                            segment = new Segment(poligon.points[j], stack.Pop());
+                            poligon.diagonale.Add(segment);
                         }
                         stack.Clear();
-                        stack.Push(poligon.points[j - 1]);
+                        stack.Push(poligon.points[j-1]);
                         stack.Push(poligon.points[j]);
                     }
                     else
                     {
                         Point ultimulElementSters = stack.Pop();
-                        segment = new Segment(poligon.points[j], stack.Peek());
                         while (stack.Count > 0)
                         {
+                            segment = new Segment(poligon.points[j], stack.Peek());
                             if (!Helper.IntersecteazaOricareLatura(segment, poligon.laturiPoligon) &&
                             !Helper.IntersecteazaOricareDiagonala(segment, poligon.diagonale) &&
-                            SeAflaInInterior(poligon.points, j, poligon.points.IndexOf(stack.Peek()),poligon.points.Count))
+                            SeAflaInInterior(poligon.points, j, poligon.points.IndexOf(stack.Peek()), poligon.points.Count))
                             {
                                 poligon.diagonale.Add(segment);
-                                stack.Pop();
+                                ultimulElementSters = stack.Pop();
                             }
                             else queue.Enqueue(stack.Pop());
 
@@ -206,24 +218,25 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     }
 
                 }
+                
                 stack.Pop();
                 while (stack.Count > 1)
                 {
-                    segment = new Segment(poligon.points[poligon.points.Count - 1], stack.Pop());
+                    segment = new Segment(sortedPoints[poligon.points.Count - 1], stack.Pop());
                     poligon.diagonale.Add(segment);
                 }
-
-
-                PlayAnimation(poligon.diagonale);
-
+                
+                
+                listaDiagonale.Add(poligon.diagonale);
             }
+            PlayAnimation();
         }
 
-        public bool DiagonalaExistaDeja(Segment segment)
+        public bool DiagonalaExistaDeja(Segment segment,List<Segment> lista)
         {
-            for (int i = 0; i < diagonale.Count; i++)
+            for (int i = 0; i < lista.Count; i++)
             {
-                if (diagonale[i].a == segment.a && diagonale[i].b == segment.b || diagonale[i].b == segment.a && diagonale[i].a == segment.b)
+                if (lista[i].a == segment.a && lista[i].b == segment.b || lista[i].b == segment.a && lista[i].a == segment.b)
                     return true;
             }
             return false;
@@ -243,18 +256,21 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
         void timer_Tick(object sender, EventArgs e)
         {
-            if (indexTimer < diagonaleCurente.Count)
-            
+                int indexBrush=0;
+            foreach (List<Segment> lista in listaDiagonale)
             {
-                helper.DesenareLinie(diagonaleCurente[indexTimer].a, diagonaleCurente[indexTimer].b, new Pen(Brushes.Red, 2));
-                indexTimer++;
+                while (indexTimer < lista.Count)
+                {
+                    helper.DesenareLinie(lista[indexTimer].a, lista[indexTimer].b, new Pen(brushes[indexBrush], 2));
+                    indexTimer++;
+                }
+                indexBrush++;
+                indexTimer = 0;
             }
-            else
-                timer.Stop();
+            timer.Stop();
         }
-        private void PlayAnimation(List<Segment> diagnoale)
+        private void PlayAnimation()
         {
-            this.diagonaleCurente = diagonale;
             timer.Interval = TimeSpan.FromMilliseconds(50);
             timer.Tick += timer_Tick;
             indexTimer = 0;
