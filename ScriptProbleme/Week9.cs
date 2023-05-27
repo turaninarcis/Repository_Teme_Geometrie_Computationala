@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using static Repository_Teme_Geometrie_Computationala.Helper;
 
@@ -19,6 +21,8 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         List<Helper.Segment> laturiPoligon;
         List<Helper.Segment> diagonale = new List<Helper.Segment>();
         DispatcherTimer timer = new DispatcherTimer();
+        Ellipse ellipse = new Ellipse();
+
         int indexTimer = 0;
 
 
@@ -68,45 +72,47 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     bool ok;
                     if (points[i - 1].Y > points[iNormalised].Y && points[excessOne].Y > points[iNormalised].Y) 
                     {
-                        int index = sortedPoints.IndexOf(points[iNormalised]);
-                        
+                        int index = sortedPoints.IndexOf(points[iNormalised])-1;
                         do
                         {
+                            if (index < 0)
+                                break;
+
                             ok = true;
-                            if(index-1<0)index = points.Count-1;
-                            segment = new Segment(points[iNormalised], sortedPoints[index - 1]);
-                            if (DiagonalaExistaDeja(segment)) { break; }
-                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index - 1, points.Count))
+                            segment = new Segment(points[iNormalised], sortedPoints[index]);
+
+                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index, points.Count))
                             {
                                 diagonale.Add(segment);
                             }
-                            else { ok = false; index--; }
+                            else { ok = false; index--;}
                         } while (ok == false);
                         
                     }
-                    else if (points[i - 1].Y < points[iNormalised].Y && points[excessOne].Y < points[iNormalised].Y)
+                    if (points[i - 1].Y < points[iNormalised].Y && points[excessOne].Y < points[iNormalised].Y)
                     {
-
-                        int index = sortedPoints.IndexOf(points[iNormalised]);
+                        int index = sortedPoints.IndexOf(points[iNormalised])+1;
                         do
                         {
+                            if(index>=points.Count)
+                                break;
                             ok = true;
-                            segment = new Segment(points[iNormalised], sortedPoints[index + 1]);
-                            if (DiagonalaExistaDeja(segment)) { break; }
+                            segment = new Segment(points[iNormalised], sortedPoints[index]);
 
-                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index + 1, points.Count))
+                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index, points.Count))
                             {
                                 diagonale.Add(segment);
                             }
-                            else { ok = false; index++; }
+                            else { ok = false; index++; 
+                            }
                         } while (ok == false);
                     }
                 }
-
             }
 
             PlayAnimation();
         }
+
         public bool DiagonalaExistaDeja(Segment segment)
         {
             for(int i = 0;i<diagonale.Count;i++)

@@ -21,7 +21,7 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
         List<Helper.Segment> diagonale = new List<Helper.Segment>();
         List<Brush> brushes = new List<Brush>()
         {
-            Brushes.Blue, Brushes.Green,Brushes.AliceBlue,Brushes.Brown,Brushes.DeepPink,Brushes.Purple,Brushes.DarkGray
+            Brushes.Blue, Brushes.Green,Brushes.DarkTurquoise,Brushes.Brown,Brushes.DeepPink,Brushes.Purple,Brushes.Gray
         };
         List<Poligon> poligoane = new List<Poligon>();
         List<Helper.Segment> diagonaleCurente = new List<Helper.Segment>();
@@ -61,8 +61,8 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
 
         public void PartitionarePoligon(object sender, MouseButtonEventArgs e)
         {
-            diagonale.Clear();
             listaDiagonale.Clear();
+            diagonale.Clear();
             sortedPoints = GetSortedPoints(points);
             helper.CreateLineBetweenLastPoints(sender, e);
             laturiPoligon = Helper.CreazaLaturiDinPuncte(points);
@@ -76,14 +76,16 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     bool ok;
                     if (points[i - 1].Y > points[iNormalised].Y && points[excessOne].Y > points[iNormalised].Y)
                     {
-                        int index = sortedPoints.IndexOf(points[iNormalised]);
-
+                        int index = sortedPoints.IndexOf(points[iNormalised]) - 1;
                         do
                         {
+                            if (index < 0)
+                                break;
+
                             ok = true;
-                            if (index - 1 < 0) index = points.Count - 1;
-                            segment = new Segment(points[iNormalised], sortedPoints[index - 1]);
-                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index - 1, points.Count)&&!DiagonalaExistaDeja(segment, diagonale))
+                            segment = new Segment(points[iNormalised], sortedPoints[index]);
+
+                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index, points.Count))
                             {
                                 diagonale.Add(segment);
                             }
@@ -93,22 +95,25 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     }
                     if (points[i - 1].Y < points[iNormalised].Y && points[excessOne].Y < points[iNormalised].Y)
                     {
-
-                        int index = sortedPoints.IndexOf(points[iNormalised]);
+                        int index = sortedPoints.IndexOf(points[iNormalised]) + 1;
                         do
                         {
+                            if (index >= points.Count)
+                                break;
                             ok = true;
-                            segment = new Segment(points[iNormalised], sortedPoints[index + 1]);
+                            segment = new Segment(points[iNormalised], sortedPoints[index]);
 
-                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index + 1, points.Count)&&!DiagonalaExistaDeja(segment, diagonale))
+                            if (!Helper.IntersecteazaOricareLatura(segment, laturiPoligon) && SeAflaInInterior(points, iNormalised, index, points.Count))
                             {
                                 diagonale.Add(segment);
                             }
-                            else { ok = false; index++; }
+                            else
+                            {
+                                ok = false; index++;
+                            }
                         } while (ok == false);
                     }
                 }
-
             }
 
             listaDiagonale.Add(diagonale);
@@ -174,17 +179,20 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                     lant1.Add(p);
                 for (int i = min; i <= max; i++)
                     lant2.Add(poligon.points[i]);
-                foreach (Point p in lant2)
-                    lant1.Remove(p);
+                for(int i = min+1;i< max; i++)
+                {
+                    lant1.Remove(poligon.points[i]);
+                }
+
                 stack.Push(poligon.points[0]);
                 stack.Push(poligon.points[1]);
 
                 for (int j = 2; j < poligon.points.Count - 1; j++)
                 {
-                    if (lant1.Contains(poligon.points[j]) && lant2.Contains(stack.Peek())|| lant2.Contains(poligon.points[j]) && lant1.Contains(stack.Peek()))
+                    if (PuncteleFacParteDePeLanturiDiferite(lant1, lant2, poligon.points[j],stack.Peek()))
                     {
-                        stack.Pop();
-                        while (stack.Count >=1)
+                        //stack.Pop();
+                        while (stack.Count >1)
                         {
 
                             segment = new Segment(poligon.points[j], stack.Pop());
@@ -210,28 +218,34 @@ namespace Repository_Teme_Geometrie_Computationala.ScriptProbleme
                             else queue.Enqueue(stack.Pop());
 
                         }
-                        foreach (Point p in queue) stack.Push(p);
+                        while(queue.Count>0) stack.Push(queue.Dequeue());
 
                         stack.Push(ultimulElementSters);
                         stack.Push(poligon.points[j]);
 
                     }
-
+                    
+                    
+                    
                 }
-                
+
                 stack.Pop();
                 while (stack.Count > 1)
-                {
-                    segment = new Segment(sortedPoints[poligon.points.Count - 1], stack.Pop());
-                    poligon.diagonale.Add(segment);
-                }
-                
-                
+                    poligon.diagonale.Add(new Segment(poligon.points[poligon.points.Count - 1], stack.Pop()));
+
                 listaDiagonale.Add(poligon.diagonale);
             }
             PlayAnimation();
         }
 
+        public bool PuncteleFacParteDePeLanturiDiferite(List<Point> lant1, List<Point> lant2, Point a, Point b)
+        {
+            if (lant1.Contains(a) && lant1.Contains(b) || lant2.Contains(a) && lant2.Contains(b)) return false;
+            if (((lant1.Contains(a) ==true && lant2.Contains(b)==true)
+                || (lant1.Contains(b) == true && lant2.Contains(a) == true)))
+                return true;
+            return false;
+        }
         public bool DiagonalaExistaDeja(Segment segment,List<Segment> lista)
         {
             for (int i = 0; i < lista.Count; i++)
