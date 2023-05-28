@@ -67,6 +67,20 @@ namespace Repository_Teme_Geometrie_Computationala
             }
             return puncte;
         }
+
+        public List<Point> GenerarePuncteAleatoriiList(int numarPuncte)
+        {
+            Random random = new Random();
+            List<Point> toR = new List<Point>();
+            double x, y;
+            for (int i = 0; i < numarPuncte; i++)
+            {
+
+                toR.Add(GenerarePunctAleatoriu());
+            }
+            return toR;
+        }
+
         public Point[] GenerarePuncteAleatoriiConstrained(int numarPuncte, int startingWidth,int maxWidth,int startingHeight,int maxHeight)
         {
             Point[] puncte = new Point[numarPuncte];
@@ -207,7 +221,15 @@ namespace Repository_Teme_Geometrie_Computationala
             b = temp;    
         }
 
-
+        public Point[] CopierePuncte(Point[] puncte)
+        {
+            Point[] toR = new Point[puncte.Length];
+            for(int i = 0;i<puncte.Length;i++) 
+            {
+                toR[i] = puncte[i];
+            }
+            return toR;
+        }
 
         public static bool SeAflaInInterior(List<Point> points, int i, int j)
         {
